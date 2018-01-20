@@ -53,6 +53,7 @@
             this.BuildButton.TabIndex = 0;
             this.BuildButton.Text = "Построить";
             this.BuildButton.UseVisualStyleBackColor = true;
+            this.BuildButton.Click += new System.EventHandler(this.BuildButton_Click);
             // 
             // CandyCountTextBox
             // 

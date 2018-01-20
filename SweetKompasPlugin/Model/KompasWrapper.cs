@@ -2,6 +2,9 @@
 {
     public class KompasWrapper
     {
+        public void BuildCandyForm (CandyForm candyForm)
+        {
 
+        }
     }
 }

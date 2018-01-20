@@ -14,6 +14,17 @@ namespace SweetKompasPlugin.Model
         private double _formDepthByWidth;
         private double _formDepthByHeight;
 
+        public CandyForm(int candyCount, double candyLength, double candyWidth, double candyHeight, double formDepthByLength, double formDepthByWidth, double formDepthByHeight)
+        {
+            CandyCount = candyCount;
+            CandyLength = candyLength;
+            CandyWidth = candyWidth;
+            CandyHeight = candyHeight;
+            FormDepthByLength = formDepthByLength;
+            FormDepthByWidth = formDepthByWidth;
+            FormDepthByHeight = formDepthByHeight;
+        }
+
         public int CandyCount
         {
             get
