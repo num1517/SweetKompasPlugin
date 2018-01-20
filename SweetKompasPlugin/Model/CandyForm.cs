@@ -63,7 +63,7 @@ namespace SweetKompasPlugin.Model
                 return _candyLength;
             }
 
-            set
+            private set
             {
                 if (!IsValidDouble(value))
                 {
@@ -91,7 +91,7 @@ namespace SweetKompasPlugin.Model
                 return _candyWidth;
             }
 
-            set
+            private set
             {
                 if (!IsValidDouble(value))
                 {
@@ -119,7 +119,7 @@ namespace SweetKompasPlugin.Model
                 return _candyHeight;
             }
 
-            set
+            private set
             {
                 if (!IsValidDouble(value))
                 {
@@ -147,7 +147,7 @@ namespace SweetKompasPlugin.Model
                 return _formDepthByLength;
             }
 
-            set
+            private set
             {
                 if (!IsValidDouble(value))
                 {
@@ -175,7 +175,7 @@ namespace SweetKompasPlugin.Model
                 return _formDepthByWidth;
             }
 
-            set
+            private set
             {
                 if (!IsValidDouble(value))
                 {
@@ -202,7 +202,7 @@ namespace SweetKompasPlugin.Model
                 return _formDepthByHeight;
             }
 
-            set
+            private set
             {
                 if (!IsValidDouble(value))
                 {
