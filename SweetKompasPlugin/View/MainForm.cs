@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Drawing;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 using SweetKompasPlugin.Model;
 using SweetKompasPlugin.Model.Exceptions;
-using System.Drawing;
+
 
 namespace SweetKompasPlugin
 {
@@ -11,12 +13,21 @@ namespace SweetKompasPlugin
     {
         private KompasWrapper _kompasWrapper = new KompasWrapper();
 
+        private Dictionary<TextBox, Label> _textBoxLabelBindDictionary = new Dictionary<TextBox, Label>();
+
         public MainForm()
         {
             InitializeComponent();
+            _textBoxLabelBindDictionary.Add(CandyCountTextBox, CandyCountLabel);
+            _textBoxLabelBindDictionary.Add(CandyLengthTextBox, CandyLengthLabel);
+            _textBoxLabelBindDictionary.Add(CandyWidthTextBox, CandyWidthLabel);
+            _textBoxLabelBindDictionary.Add(CandyHeightTextBox, CandyHeightLabel);
+            _textBoxLabelBindDictionary.Add(FormDepthByLengthTextBox, FormDepthByLengthLabel);
+            _textBoxLabelBindDictionary.Add(FormDepthByWidthTextBox, FormDepthByWidthLabel);
+            _textBoxLabelBindDictionary.Add(FormDepthByHeightTextBox, FormDepthByHeightLabel);
         }
 
-        private void BuildButton_Click(object sender, System.EventArgs e)
+        private void BuildButton_Click(object sender, EventArgs e)
         {
             CandyForm candyForm = null;
 
@@ -67,6 +78,11 @@ namespace SweetKompasPlugin
                 FormDepthByHeightLabel.BackColor = Color.Red;
                 MessageBox.Show(exception.Message);
             }
+        }
+
+        private void ChangeToBackColor(object sender, EventArgs e)
+        {
+            _textBoxLabelBindDictionary[(TextBox)sender].BackColor = DefaultBackColor;
         }
     }
 }
