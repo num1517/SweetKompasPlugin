@@ -14,7 +14,10 @@ namespace SweetKompasPlugin.Model
         private double _formDepthByWidth;
         private double _formDepthByHeight;
 
-        public CandyForm(int candyCount, double candyLength, double candyWidth, double candyHeight, double formDepthByLength, double formDepthByWidth, double formDepthByHeight)
+        public CandyForm(int candyCount, double candyLength, 
+            double candyWidth, double candyHeight,
+            double formDepthByLength, double formDepthByWidth,
+            double formDepthByHeight)
         {
             CandyCount = candyCount;
             CandyLength = candyLength;
@@ -214,7 +217,7 @@ namespace SweetKompasPlugin.Model
                 if (!(value <= 5))
                 {
                     throw new FormDepthByHeightException(
-                        "Толщина формы по ширине не может быть больше 5 мм.");
+                        "Толщина формы по высоте не может быть больше 5 мм.");
                 }
                 _formDepthByHeight = value;
             }

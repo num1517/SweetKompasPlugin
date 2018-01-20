@@ -45,44 +45,52 @@ namespace SweetKompasPlugin
             }
             catch (CandyCountException exception)
             {
-                CandyCountLabel.BackColor = Color.Red;
-                MessageBox.Show(exception.Message);
+                ShowErrorMessage(CandyCountLabel, exception.Message);
             }
             catch (CandyLengthException exception)
             {
-                CandyLengthLabel.BackColor = Color.Red;
-                MessageBox.Show(exception.Message);
+                ShowErrorMessage(CandyLengthLabel, exception.Message);
             }
             catch (CandyWidthException exception)
             {
-                CandyWidthLabel.BackColor = Color.Red;
-                MessageBox.Show(exception.Message);
+                ShowErrorMessage(CandyWidthLabel, exception.Message);
             }
             catch (CandyHeightException exception)
             {
-                CandyHeightLabel.BackColor = Color.Red;
-                MessageBox.Show(exception.Message);
+                ShowErrorMessage(CandyHeightLabel, exception.Message);
             }
             catch (FormDepthByLengthException exception)
             {
-                FormDepthByLengthLabel.BackColor = Color.Red;
-                MessageBox.Show(exception.Message);
+                ShowErrorMessage(FormDepthByLengthLabel, exception.Message);
             }
             catch (FormDepthByWidthException exception)
             {
-                FormDepthByWidthLabel.BackColor = Color.Red;
-                MessageBox.Show(exception.Message);
+                ShowErrorMessage(FormDepthByWidthLabel, exception.Message);
             }
             catch (FormDepthByHeightException exception)
             {
-                FormDepthByHeightLabel.BackColor = Color.Red;
-                MessageBox.Show(exception.Message);
+                ShowErrorMessage(FormDepthByHeightLabel, exception.Message);
+            }
+
+            if (candyForm != null)
+            {
+                _kompasWrapper.BuildCandyForm(candyForm);
             }
         }
 
         private void ChangeToBackColor(object sender, EventArgs e)
         {
             _textBoxLabelBindDictionary[(TextBox)sender].BackColor = DefaultBackColor;
+        }
+
+        private void ShowErrorMessage(Label label, string message)
+        {
+            if (label != null)
+            {
+                label.BackColor = Color.PaleVioletRed;
+            }
+            MessageBox.Show(message, "Ошибка", MessageBoxButtons.OK,
+                MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
         }
     }
 }
