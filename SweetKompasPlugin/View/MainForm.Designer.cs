@@ -62,6 +62,7 @@
             this.CandyCountTextBox.Size = new System.Drawing.Size(100, 20);
             this.CandyCountTextBox.TabIndex = 1;
             this.CandyCountTextBox.TextChanged += new System.EventHandler(this.ChangeToBackColor);
+            this.CandyCountTextBox.Leave += new System.EventHandler(this.TextBoxValidate);
             // 
             // CandyCountLabel
             // 
@@ -88,6 +89,7 @@
             this.CandyLengthTextBox.Size = new System.Drawing.Size(100, 20);
             this.CandyLengthTextBox.TabIndex = 4;
             this.CandyLengthTextBox.TextChanged += new System.EventHandler(this.ChangeToBackColor);
+            this.CandyLengthTextBox.Leave += new System.EventHandler(this.TextBoxValidate);
             // 
             // CandyWidthLabel
             // 
@@ -105,6 +107,7 @@
             this.CandyWidthTextBox.Size = new System.Drawing.Size(100, 20);
             this.CandyWidthTextBox.TabIndex = 6;
             this.CandyWidthTextBox.TextChanged += new System.EventHandler(this.ChangeToBackColor);
+            this.CandyWidthTextBox.Leave += new System.EventHandler(this.TextBoxValidate);
             // 
             // CandyHeightLabel
             // 
@@ -122,6 +125,7 @@
             this.CandyHeightTextBox.Size = new System.Drawing.Size(100, 20);
             this.CandyHeightTextBox.TabIndex = 8;
             this.CandyHeightTextBox.TextChanged += new System.EventHandler(this.ChangeToBackColor);
+            this.CandyHeightTextBox.Leave += new System.EventHandler(this.TextBoxValidate);
             // 
             // FormDepthByLengthLabel
             // 
@@ -139,6 +143,7 @@
             this.FormDepthByLengthTextBox.Size = new System.Drawing.Size(100, 20);
             this.FormDepthByLengthTextBox.TabIndex = 10;
             this.FormDepthByLengthTextBox.TextChanged += new System.EventHandler(this.ChangeToBackColor);
+            this.FormDepthByLengthTextBox.Leave += new System.EventHandler(this.TextBoxValidate);
             // 
             // FormDepthByWidthLabel
             // 
@@ -156,6 +161,7 @@
             this.FormDepthByWidthTextBox.Size = new System.Drawing.Size(100, 20);
             this.FormDepthByWidthTextBox.TabIndex = 12;
             this.FormDepthByWidthTextBox.TextChanged += new System.EventHandler(this.ChangeToBackColor);
+            this.FormDepthByWidthTextBox.Leave += new System.EventHandler(this.TextBoxValidate);
             // 
             // FormDepthByHeightLabel
             // 
@@ -173,6 +179,7 @@
             this.FormDepthByHeightTextBox.Size = new System.Drawing.Size(100, 20);
             this.FormDepthByHeightTextBox.TabIndex = 14;
             this.FormDepthByHeightTextBox.TextChanged += new System.EventHandler(this.ChangeToBackColor);
+            this.FormDepthByHeightTextBox.Leave += new System.EventHandler(this.TextBoxValidate);
             // 
             // MainForm
             // 
