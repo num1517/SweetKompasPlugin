@@ -45,6 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\CandyForm.cs" />
+    <Compile Include="Model\Exceptions\CandyCountException.cs" />
+    <Compile Include="Model\Exceptions\CandyHeightException.cs" />
+    <Compile Include="Model\Exceptions\CandyLengthException.cs" />
+    <Compile Include="Model\Exceptions\CandyWidthException.cs" />
+    <Compile Include="Model\Exceptions\FormDepthByHeightException.cs" />
+    <Compile Include="Model\Exceptions\FormDepthByLengthException.cs" />
+    <Compile Include="Model\Exceptions\FormDepthByWidthException.cs" />
+    <Compile Include="Model\KompasWrapper.cs" />
     <Compile Include="View\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,6 +71,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="View\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -75,8 +87,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
