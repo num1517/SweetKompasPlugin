@@ -85,6 +85,7 @@ namespace SweetKompasPlugin
 
             if (candyForm != null)
             {
+                _kompasWrapper.StartKompas();
                 _kompasWrapper.BuildCandyForm(candyForm);
             }
         }

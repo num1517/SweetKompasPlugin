@@ -42,6 +42,11 @@ namespace SweetKompasPlugin.Model
                     throw new CandyCountException(
                         "Заданное количество конфет - не целое число.");
                 }
+                if (!(value % 2 == 0))
+                {
+                    throw new CandyCountException(
+                        "Количество конфет должно быть четным.");
+                }
                 if (!(value >= 8))
                 {
                     throw new CandyCountException(
