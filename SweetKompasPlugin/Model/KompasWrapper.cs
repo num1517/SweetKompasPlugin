@@ -165,10 +165,13 @@ namespace SweetKompasPlugin.Model
                         formSurfaceDocument2D.ksLineSeg(candyXPoints[k], candyYPoints[k], 
                             candyXPoints[k + 1], candyYPoints[k + 1], 1);
                     }
-                    candyYPoints = GetShiftedArray(candyYPoints, candyForm.CandyLength + candyForm.FormDepthByWidth);
+                    candyYPoints = GetShiftedArray(candyYPoints, 
+                        candyForm.CandyLength + candyForm.FormDepthByWidth);
                 }
-                candyYPoints = GetShiftedArray(candyYPoints, -2 * (candyForm.CandyLength + candyForm.FormDepthByWidth));
-                candyXPoints = GetShiftedArray(candyXPoints, candyForm.CandyWidth + candyForm.FormDepthByLength);
+                candyYPoints = GetShiftedArray(candyYPoints, 
+                    -2 * (candyForm.CandyLength + candyForm.FormDepthByWidth));
+                candyXPoints = GetShiftedArray(candyXPoints, 
+                    candyForm.CandyWidth + candyForm.FormDepthByLength);
             }
 
             // Выходим из режима редактирования эскиза
