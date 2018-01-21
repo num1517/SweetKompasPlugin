@@ -61,6 +61,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SweetKompasPlugin\SweetKompasPlugin.csproj">
+      <Project>{1030b07c-c138-4cfa-95a9-bc934a63abb5}</Project>
+      <Name>SweetKompasPlugin</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
