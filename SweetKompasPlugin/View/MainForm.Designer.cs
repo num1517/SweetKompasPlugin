@@ -69,9 +69,9 @@
             this.CandyCountLabel.AutoSize = true;
             this.CandyCountLabel.Location = new System.Drawing.Point(13, 13);
             this.CandyCountLabel.Name = "CandyCountLabel";
-            this.CandyCountLabel.Size = new System.Drawing.Size(128, 13);
+            this.CandyCountLabel.Size = new System.Drawing.Size(106, 13);
             this.CandyCountLabel.TabIndex = 2;
-            this.CandyCountLabel.Text = "Количество конфет, мм";
+            this.CandyCountLabel.Text = "Количество конфет";
             // 
             // CandyLengthLabel
             // 
