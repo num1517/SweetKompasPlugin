@@ -237,13 +237,13 @@ namespace SweetKompasPlugin.Model
             {
                 double[] cylinderCandyXPoints = new double[]
                 {
-                (-formTotalLength / 2) + candyForm.FormDepthByLength*3,
-                (-formTotalLength / 2) + candyForm.FormDepthByLength*3,
-                (-formTotalLength / 2) + candyForm.FormDepthByLength*3
-                    + candy.Width/2,
-                (-formTotalLength / 2) + candyForm.FormDepthByLength*3
-                    + candy.Width/2,
-                (-formTotalLength / 2) + candyForm.FormDepthByLength*3
+                (-formTotalLength / 2) + candyForm.FormDepthByLength + candy.Width/2,
+                (-formTotalLength / 2) + candyForm.FormDepthByLength + candy.Width/2,
+                (-formTotalLength / 2) + candyForm.FormDepthByLength
+                    + candy.Width,
+                (-formTotalLength / 2) + candyForm.FormDepthByLength
+                    + candy.Width,
+                (-formTotalLength / 2) + candyForm.FormDepthByLength + candy.Width/2
                 };
                 double[] cylinderCandyYPoints = new double[]
                 {
