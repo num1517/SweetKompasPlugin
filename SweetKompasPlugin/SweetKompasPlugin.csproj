@@ -62,14 +62,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\CandyForm.cs" />
+    <Compile Include="Model\CylinderCandy.cs" />
     <Compile Include="Model\Exceptions\CandyCountException.cs" />
     <Compile Include="Model\Exceptions\CandyHeightException.cs" />
     <Compile Include="Model\Exceptions\CandyLengthException.cs" />
+    <Compile Include="Model\Exceptions\CandyRadiusException.cs" />
     <Compile Include="Model\Exceptions\CandyWidthException.cs" />
     <Compile Include="Model\Exceptions\FormDepthByHeightException.cs" />
     <Compile Include="Model\Exceptions\FormDepthByLengthException.cs" />
     <Compile Include="Model\Exceptions\FormDepthByWidthException.cs" />
+    <Compile Include="Model\ICandy.cs" />
     <Compile Include="Model\KompasWrapper.cs" />
+    <Compile Include="Model\RectCandy.cs" />
+    <Compile Include="Model\SphereCandy.cs" />
+    <Compile Include="Model\Validator.cs" />
     <Compile Include="View\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

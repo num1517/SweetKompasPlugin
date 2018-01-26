@@ -42,7 +42,7 @@ namespace SweetKompasPlugin.Model
             }
         }
 
-        public void BuildCandyForm (CandyForm candyForm)
+        public void BuildCandyForm (CandyForm candyForm, ICandy candy)
         {
             if (_kompas == null)
             {
@@ -54,9 +54,9 @@ namespace SweetKompasPlugin.Model
 
             double formTotalLength = candyForm.FormDepthByLength
                 + (candyForm.FormDepthByLength * candyForm.CandyCount / 2)
-                + (candyForm.CandyWidth * candyForm.CandyCount / 2);
+                + (candy.Width * candyForm.CandyCount / 2);
             double formTotalWidth = (candyForm.FormDepthByWidth * 3)
-                + (candyForm.CandyLength * 2);
+                + (candy.Length * 2);
 
             // 5 точка равна 1
             double[] formXPoints = new double[]
@@ -110,7 +110,7 @@ namespace SweetKompasPlugin.Model
             formExtrudeDefinition.directionType = (short)Direction_Type.dtMiddlePlane;
             formExtrudeDefinition.SetSketch(formSketch);
             ksExtrusionParam extrudeParam = formExtrudeDefinition.ExtrusionParam();
-            extrudeParam.depthNormal = candyForm.CandyHeight + candyForm.FormDepthByHeight;
+            extrudeParam.depthNormal = candy.Height + candyForm.FormDepthByHeight;
             formExtrude.Create();
 
             // Создание смещенной плоскости на поверхности формы
@@ -118,74 +118,192 @@ namespace SweetKompasPlugin.Model
             ksEntity planeFormSurface = part.NewEntity((short)Obj3dType.o3d_planeOffset);
             ksPlaneOffsetDefinition planeDefinition = planeFormSurface.GetDefinition();
             planeDefinition.SetPlane(part.GetDefaultEntity((short)Obj3dType.o3d_planeXOY));
-            planeDefinition.offset = (candyForm.CandyHeight + candyForm.FormDepthByHeight) / 2;
+            planeDefinition.offset = (candy.Height + candyForm.FormDepthByHeight) / 2;
             planeFormSurface.Create();
 
-            // Создание и настройка эскиза на поверхности формы (смещенной плоскости)
+            
 
-            ksEntity formSurfaceSketch = part.NewEntity((short)Obj3dType.o3d_sketch);
-            ksSketchDefinition formSurfaceSketchDefinition = formSurfaceSketch.GetDefinition();
-            formSurfaceSketchDefinition.SetPlane(planeFormSurface);
-            formSurfaceSketch.Create();
-
-            // Входим в режим редактирования эскиза
-            ksDocument2D formSurfaceDocument2D = formSurfaceSketchDefinition.BeginEdit();
-
-            // Расчитаем положение первой конфеты
-            // Положение других конфет расчитаем путем сдвига первой
-
-            double[] candyXPoints = new double[]
+            if (candy is RectCandy)
             {
-                (-formTotalLength / 2) + candyForm.FormDepthByLength,
-                (-formTotalLength / 2) + candyForm.FormDepthByLength,
-                (-formTotalLength / 2) + candyForm.FormDepthByLength
-                    + candyForm.CandyWidth,
-                (-formTotalLength / 2) + candyForm.FormDepthByLength
-                    + candyForm.CandyWidth,
-                (-formTotalLength / 2) + candyForm.FormDepthByLength
-            };
-            double[] candyYPoints = new double[]
-            {
-                (-formTotalWidth / 2) + candyForm.FormDepthByWidth,
-                (-formTotalWidth / 2) + candyForm.FormDepthByWidth
-                    + candyForm.CandyLength,
-                (-formTotalWidth / 2) + candyForm.FormDepthByWidth
-                    + candyForm.CandyLength,
-                (-formTotalWidth / 2) + candyForm.FormDepthByWidth,
-                (-formTotalWidth / 2) + candyForm.FormDepthByWidth
-            };
+                // Создание и настройка эскиза на поверхности формы (смещенной плоскости)
 
-            // Рисуем конфеты
-            for (int i = 0; i < candyForm.CandyCount / 2; i++)
-            {
-                for (int j = 0; j < 2; j++)
+                ksEntity formSurfaceSketch = part.NewEntity((short)Obj3dType.o3d_sketch);
+                ksSketchDefinition formSurfaceSketchDefinition = formSurfaceSketch.GetDefinition();
+                formSurfaceSketchDefinition.SetPlane(planeFormSurface);
+                formSurfaceSketch.Create();
+
+                // Входим в режим редактирования эскиза
+                ksDocument2D formSurfaceDocument2D = formSurfaceSketchDefinition.BeginEdit();
+
+                // Расчитаем положение первой конфеты
+                // Положение других конфет расчитаем путем сдвига первой
+
+                double[] rectCandyXPoints = new double[]
                 {
-                    for (int k = 0; k < 4; k++)
+                (-formTotalLength / 2) + candyForm.FormDepthByLength,
+                (-formTotalLength / 2) + candyForm.FormDepthByLength,
+                (-formTotalLength / 2) + candyForm.FormDepthByLength
+                    + candy.Width,
+                (-formTotalLength / 2) + candyForm.FormDepthByLength
+                    + candy.Width,
+                (-formTotalLength / 2) + candyForm.FormDepthByLength
+                };
+                double[] rectCandyYPoints = new double[]
+                {
+                (-formTotalWidth / 2) + candyForm.FormDepthByWidth,
+                (-formTotalWidth / 2) + candyForm.FormDepthByWidth
+                    + candy.Length,
+                (-formTotalWidth / 2) + candyForm.FormDepthByWidth
+                    + candy.Length,
+                (-formTotalWidth / 2) + candyForm.FormDepthByWidth,
+                (-formTotalWidth / 2) + candyForm.FormDepthByWidth
+                };
+
+                // Рисуем  прямоугольные конфеты
+                for (int i = 0; i < candyForm.CandyCount / 2; i++)
+                {
+                    for (int j = 0; j < 2; j++)
                     {
-                        formSurfaceDocument2D.ksLineSeg(candyXPoints[k], candyYPoints[k], 
-                            candyXPoints[k + 1], candyYPoints[k + 1], 1);
+                        for (int k = 0; k < 4; k++)
+                        {
+                            formSurfaceDocument2D.ksLineSeg(rectCandyXPoints[k], rectCandyYPoints[k],
+                                rectCandyXPoints[k + 1], rectCandyYPoints[k + 1], 1);
+                        }
+                        rectCandyYPoints = GetShiftedArray(rectCandyYPoints,
+                            candy.Length + candyForm.FormDepthByWidth);
                     }
-                    candyYPoints = GetShiftedArray(candyYPoints, 
-                        candyForm.CandyLength + candyForm.FormDepthByWidth);
+                    rectCandyYPoints = GetShiftedArray(rectCandyYPoints,
+                        -2 * (candy.Length + candyForm.FormDepthByWidth));
+                    rectCandyXPoints = GetShiftedArray(rectCandyXPoints,
+                        candy.Width + candyForm.FormDepthByLength);
                 }
-                candyYPoints = GetShiftedArray(candyYPoints, 
-                    -2 * (candyForm.CandyLength + candyForm.FormDepthByWidth));
-                candyXPoints = GetShiftedArray(candyXPoints, 
-                    candyForm.CandyWidth + candyForm.FormDepthByLength);
+
+                // Выходим из режима редактирования эскиза
+                formSurfaceSketchDefinition.EndEdit();
+
+
+                // Вырезаем прямоугольные конфетки ^_^
+
+                ksEntity cutExtrude = part.NewEntity((short)Obj3dType.o3d_cutExtrusion);
+                ksCutExtrusionDefinition cutextrDefinition = cutExtrude.GetDefinition();
+                cutextrDefinition.directionType = (short)Direction_Type.dtNormal;
+                cutextrDefinition.SetSketch(formSurfaceSketch);
+                ksExtrusionParam cutExtrudeParam = cutextrDefinition.ExtrusionParam();
+                cutExtrudeParam.depthNormal = candy.Height;
+                cutExtrude.Create();
             }
 
-            // Выходим из режима редактирования эскиза
-            formSurfaceSketchDefinition.EndEdit();
+            if (candy is SphereCandy)
+            {
+                double x = -formTotalLength/2 + candyForm.FormDepthByLength + candy.Height;
+                double y = -formTotalWidth/2 + candyForm.FormDepthByWidth + candy.Height;
 
-            // Вырезаем конфетки ^_^
+                for (int i = 0; i < candyForm.CandyCount / 2; ++i)
+                {
+                    for (int j = 0; j < 2; ++j)
+                    {
+                        // Создание и настройка эскиза на поверхности формы (смещенной плоскости)
 
-            ksEntity cutExtrude = part.NewEntity((short)Obj3dType.o3d_cutExtrusion);
-            ksCutExtrusionDefinition cutextrDefinition = cutExtrude.GetDefinition();
-            cutextrDefinition.directionType = (short)Direction_Type.dtNormal;
-            cutextrDefinition.SetSketch(formSurfaceSketch);
-            ksExtrusionParam cutExtrudeParam = cutextrDefinition.ExtrusionParam();
-            cutExtrudeParam.depthNormal = candyForm.CandyHeight;
-            cutExtrude.Create();
+                        ksEntity formSurfaceSketch = part.NewEntity((short)Obj3dType.o3d_sketch);
+                        ksSketchDefinition formSurfaceSketchDefinition = formSurfaceSketch.GetDefinition();
+                        formSurfaceSketchDefinition.SetPlane(planeFormSurface);
+                        formSurfaceSketch.Create();
+
+                        // Входим в режим редактирования эскиза
+                        ksDocument2D formSurfaceDocument2D = (ksDocument2D)formSurfaceSketchDefinition.BeginEdit();
+
+                        formSurfaceDocument2D.ksArcByAngle(x, y, candy.Height, 0, 180, 1, 1);
+                        formSurfaceDocument2D.ksLineSeg(-candy.Height+x, 0+y, candy.Height+x, 0+y, 3);
+
+                        // Выходим из режима редактирования эскиза
+                        formSurfaceSketchDefinition.EndEdit();
+
+                        ksEntity rotate = (ksEntity)part.NewEntity((short)Obj3dType.o3d_cutRotated);
+                        ksCutRotatedDefinition rotDef = (ksCutRotatedDefinition)rotate.GetDefinition();
+                        rotDef.directionType = (short)Direction_Type.dtNormal;
+                        rotDef.cut = true;
+                        rotDef.SetSideParam(true, 360);
+                        rotDef.toroidShapeType = false;
+                        rotDef.SetSketch(formSurfaceSketch);
+                        rotate.Create();
+                        y += candy.Length + candyForm.FormDepthByWidth;
+                    }
+                    y -= 2 * (candy.Length + candyForm.FormDepthByWidth);
+                    x += candy.Width + candyForm.FormDepthByLength;
+                }
+            }
+
+            if (candy is CylinderCandy)
+            {
+                double[] cylinderCandyXPoints = new double[]
+                {
+                (-formTotalLength / 2) + candyForm.FormDepthByLength*3,
+                (-formTotalLength / 2) + candyForm.FormDepthByLength*3,
+                (-formTotalLength / 2) + candyForm.FormDepthByLength*3
+                    + candy.Width/2,
+                (-formTotalLength / 2) + candyForm.FormDepthByLength*3
+                    + candy.Width/2,
+                (-formTotalLength / 2) + candyForm.FormDepthByLength*3
+                };
+                double[] cylinderCandyYPoints = new double[]
+                {
+                (-formTotalWidth / 2) + candyForm.FormDepthByWidth,
+                (-formTotalWidth / 2) + candyForm.FormDepthByWidth
+                    + candy.Length,
+                (-formTotalWidth / 2) + candyForm.FormDepthByWidth
+                    + candy.Length,
+                (-formTotalWidth / 2) + candyForm.FormDepthByWidth,
+                (-formTotalWidth / 2) + candyForm.FormDepthByWidth
+                };
+
+                for (int i = 0; i < candyForm.CandyCount / 2; ++i)
+                {
+                    for (int j = 0; j < 2; ++j)
+                    {
+                        // Создание и настройка эскиза на поверхности формы (смещенной плоскости)
+
+                        ksEntity formSurfaceSketch = part.NewEntity((short)Obj3dType.o3d_sketch);
+                        ksSketchDefinition formSurfaceSketchDefinition = formSurfaceSketch.GetDefinition();
+                        formSurfaceSketchDefinition.SetPlane(planeFormSurface);
+                        formSurfaceSketch.Create();
+
+                        // Входим в режим редактирования эскиза
+                        ksDocument2D formSurfaceDocument2D = (ksDocument2D)formSurfaceSketchDefinition.BeginEdit();
+
+                        int lineStyle = 1;
+
+                        for (int k = 0; k < 4; ++k)
+                        {
+                            if (k==0)
+                            {
+                                // 3 = осевая линия
+                                lineStyle = 3;
+                            }
+                            formSurfaceDocument2D.ksLineSeg(cylinderCandyXPoints[k], cylinderCandyYPoints[k],
+                                cylinderCandyXPoints[k + 1], cylinderCandyYPoints[k + 1], lineStyle);
+                            lineStyle = 1;
+                        }
+
+                    // Выходим из режима редактирования эскиза
+                    formSurfaceSketchDefinition.EndEdit();
+
+                        ksEntity rotate = (ksEntity)part.NewEntity((short)Obj3dType.o3d_cutRotated);
+                        ksCutRotatedDefinition rotDef = (ksCutRotatedDefinition)rotate.GetDefinition();
+                        rotDef.directionType = (short)Direction_Type.dtNormal;
+                        rotDef.cut = true;
+                        rotDef.SetSideParam(true, 360);
+                        rotDef.toroidShapeType = false;
+                        rotDef.SetSketch(formSurfaceSketch);
+                        rotate.Create();
+                        cylinderCandyYPoints = GetShiftedArray(cylinderCandyYPoints,
+                            candy.Length + candyForm.FormDepthByWidth);
+                    }
+                    cylinderCandyYPoints = GetShiftedArray(cylinderCandyYPoints,
+                        -2 * (candy.Length + candyForm.FormDepthByWidth));
+                    cylinderCandyXPoints = GetShiftedArray(cylinderCandyXPoints,
+                        candy.Width + candyForm.FormDepthByLength);
+                }
+            }
         }
 
         private double[] GetShiftedArray (double[] array, double shift)

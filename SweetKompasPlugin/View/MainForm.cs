@@ -19,19 +19,25 @@ namespace SweetKompasPlugin
         {
             InitializeComponent();
             _textBoxLabelBindDictionary.Add(CandyCountTextBox, CandyCountLabel);
-            _textBoxLabelBindDictionary.Add(CandyLengthTextBox, CandyLengthLabel);
-            _textBoxLabelBindDictionary.Add(CandyWidthTextBox, CandyWidthLabel);
-            _textBoxLabelBindDictionary.Add(CandyHeightTextBox, CandyHeightLabel);
             _textBoxLabelBindDictionary.Add(FormDepthByLengthTextBox, FormDepthByLengthLabel);
             _textBoxLabelBindDictionary.Add(FormDepthByWidthTextBox, FormDepthByWidthLabel);
             _textBoxLabelBindDictionary.Add(FormDepthByHeightTextBox, FormDepthByHeightLabel);
+            _textBoxLabelBindDictionary.Add(RectCandyLengthTextBox, RectCandyLengthLabel);
+            _textBoxLabelBindDictionary.Add(RectCandyWidthTextBox, RectCandyWidthLabel);
+            _textBoxLabelBindDictionary.Add(RectCandyHeightTextBox, RectCandyHeightLabel);
+            _textBoxLabelBindDictionary.Add(SphereCandyRadiusTextBox, SphereCandyRadiusLabel);
+            _textBoxLabelBindDictionary.Add(CylinderCandyLengthTextBox, CylinderCandyLengthLabel);
+            _textBoxLabelBindDictionary.Add(CylinderCandyRadiusTextBox, CylinderCandyRadiusLabel);
             CandyCountTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            CandyLengthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            CandyWidthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            CandyHeightTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
             FormDepthByLengthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
             FormDepthByWidthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
             FormDepthByHeightTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
+            RectCandyLengthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
+            RectCandyWidthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
+            RectCandyHeightTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
+            SphereCandyRadiusTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
+            CylinderCandyLengthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
+            CylinderCandyRadiusTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
         }
 
         private void BuildButton_Click(object sender, EventArgs e)
@@ -41,30 +47,15 @@ namespace SweetKompasPlugin
             try
             {
                 int candyCount = Convert.ToInt32(CandyCountTextBox.Text);
-                double candyLength = Convert.ToDouble(CandyLengthTextBox.Text);
-                double candyWidth = Convert.ToDouble(CandyWidthTextBox.Text);
-                double candyHeight = Convert.ToDouble(CandyHeightTextBox.Text);
                 double formDepthByLength = Convert.ToDouble(FormDepthByLengthTextBox.Text);
                 double formDepthByWidth = Convert.ToDouble(FormDepthByWidthTextBox.Text);
                 double formDepthByHeight = Convert.ToDouble(FormDepthByHeightTextBox.Text);
 
-                candyForm = new CandyForm(candyCount, candyLength, candyWidth, candyHeight, formDepthByLength, formDepthByWidth, formDepthByHeight);
+                candyForm = new CandyForm(candyCount, formDepthByLength, formDepthByWidth, formDepthByHeight);
             }
             catch (CandyCountException exception)
             {
                 ShowErrorMessage(CandyCountLabel, exception.Message);
-            }
-            catch (CandyLengthException exception)
-            {
-                ShowErrorMessage(CandyLengthLabel, exception.Message);
-            }
-            catch (CandyWidthException exception)
-            {
-                ShowErrorMessage(CandyWidthLabel, exception.Message);
-            }
-            catch (CandyHeightException exception)
-            {
-                ShowErrorMessage(CandyHeightLabel, exception.Message);
             }
             catch (FormDepthByLengthException exception)
             {
@@ -83,16 +74,56 @@ namespace SweetKompasPlugin
                 ShowErrorMessage(null, "Невозможно построить деталь. В параметрах допущена ошибка.");
             }
 
-            if (candyForm != null)
+            ICandy candy = null;
+
+            try
+            {
+                switch (CandyType.SelectedIndex)
+                {
+                    case 0:
+                        candy = BuildRectCandy();
+                        break;
+                    case 1:
+                        candy = BuildSphereCandy();
+                        break;
+                    case 2:
+                        candy = BuildCylinderCandy();
+                        break;
+                }
+            }
+            catch (CandyHeightException exception)
+            {
+                ShowErrorMessage(RectCandyHeightLabel, exception.Message);
+            }
+            catch (CandyLengthException exception)
+            {
+                Label label = (CandyType.SelectedIndex == 0) ? RectCandyLengthLabel : CylinderCandyLengthLabel;
+                ShowErrorMessage(label, exception.Message);
+            }
+            catch (CandyRadiusException exception)
+            {
+                Label label = (CandyType.SelectedIndex == 1) ? SphereCandyRadiusLabel : CylinderCandyRadiusLabel;
+                ShowErrorMessage(label, exception.Message);
+            }
+            catch (CandyWidthException exception)
+            {
+                ShowErrorMessage(RectCandyWidthLabel, exception.Message);
+            }
+            catch (FormatException)
+            {
+                ShowErrorMessage(null, "Невозможно построить деталь. В параметрах допущена ошибка.");
+            }
+
+            if (candyForm != null && candy != null)
             {
                 _kompasWrapper.StartKompas();
-                _kompasWrapper.BuildCandyForm(candyForm);
+                _kompasWrapper.BuildCandyForm(candyForm, candy);
             }
         }
 
         private void ChangeToBackColor(object sender, EventArgs e)
         {
-            _textBoxLabelBindDictionary[(TextBox)sender].BackColor = DefaultBackColor;
+            _textBoxLabelBindDictionary[(TextBox)sender].BackColor = Color.Transparent;
         }
 
         private void ShowErrorMessage(Label label, string message)
@@ -132,6 +163,35 @@ namespace SweetKompasPlugin
                     "Данный параметр содержит неверное значение.");
                 textBox.Focus();
             }
+        }
+
+        private RectCandy BuildRectCandy()
+        {
+            double rectCandyLength = Convert.ToDouble(RectCandyLengthTextBox.Text);
+            double rectCandyWidth = Convert.ToDouble(RectCandyWidthTextBox.Text);
+            double rectCandyHeight = Convert.ToDouble(RectCandyHeightTextBox.Text);
+
+            return new RectCandy(rectCandyWidth, rectCandyHeight, rectCandyLength);
+        }
+
+        private SphereCandy BuildSphereCandy()
+        {
+            double sphereCandyRadius = Convert.ToDouble(SphereCandyRadiusTextBox.Text);
+
+            return new SphereCandy(sphereCandyRadius);
+        }
+
+        private CylinderCandy BuildCylinderCandy()
+        {
+            double cylinderCandyRadius = Convert.ToDouble(CylinderCandyRadiusTextBox.Text);
+            double cylinderCandyLength = Convert.ToDouble(CylinderCandyLengthTextBox.Text);
+
+            return new CylinderCandy(cylinderCandyRadius, cylinderCandyLength);
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

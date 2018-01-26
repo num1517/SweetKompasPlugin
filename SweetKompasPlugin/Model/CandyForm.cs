@@ -1,28 +1,17 @@
-﻿using System;
-
-using SweetKompasPlugin.Model.Exceptions;
+﻿using SweetKompasPlugin.Model.Exceptions;
 
 namespace SweetKompasPlugin.Model
 {
     public class CandyForm
     {
         private int _candyCount;
-        private double _candyLength;
-        private double _candyWidth;
-        private double _candyHeight;
         private double _formDepthByLength;
         private double _formDepthByWidth;
         private double _formDepthByHeight;
 
-        public CandyForm(int candyCount, double candyLength, 
-            double candyWidth, double candyHeight,
-            double formDepthByLength, double formDepthByWidth,
-            double formDepthByHeight)
+        public CandyForm(int candyCount, double formDepthByLength, double formDepthByWidth, double formDepthByHeight)
         {
             CandyCount = candyCount;
-            CandyLength = candyLength;
-            CandyWidth = candyWidth;
-            CandyHeight = candyHeight;
             FormDepthByLength = formDepthByLength;
             FormDepthByWidth = formDepthByWidth;
             FormDepthByHeight = formDepthByHeight;
@@ -37,7 +26,7 @@ namespace SweetKompasPlugin.Model
 
             private set
             {
-                if (!IsValidInt(value))
+                if (!Validator.IsValidInt(value))
                 {
                     throw new CandyCountException(
                         "Заданное количество конфет - не целое число.");
@@ -61,90 +50,6 @@ namespace SweetKompasPlugin.Model
             }
         }
 
-        public double CandyLength
-        {
-            get
-            {
-                return _candyLength;
-            }
-
-            private set
-            {
-                if (!IsValidDouble(value))
-                {
-                    throw new CandyLengthException(
-                        "Заданная длина конфеты - не вещественное число.");
-                }
-                if (!(value >= 20))
-                {
-                    throw new CandyLengthException(
-                        "Длина конфеты не может быть меньше 20 мм.");
-                }
-                if (!(value <= 50))
-                {
-                    throw new CandyLengthException(
-                        "Длина конфеты не может быть больше 50 мм.");
-                }
-                _candyLength = value;
-            }
-        }
-
-        public double CandyWidth
-        {
-            get
-            {
-                return _candyWidth;
-            }
-
-            private set
-            {
-                if (!IsValidDouble(value))
-                {
-                    throw new CandyWidthException(
-                        "Заданная ширина конфеты - не вещественное число.");
-                }
-                if (!(value >= 20))
-                {
-                    throw new CandyWidthException(
-                        "Ширина конфеты не может быть меньше 20 мм.");
-                }
-                if (!(value <= 50))
-                {
-                    throw new CandyWidthException(
-                        "Ширина конфеты не может быть больше 50 мм.");
-                }
-                _candyWidth = value;
-            }
-        }
-
-        public double CandyHeight
-        {
-            get
-            {
-                return _candyHeight;
-            }
-
-            private set
-            {
-                if (!IsValidDouble(value))
-                {
-                    throw new CandyHeightException(
-                        "Заданная высота конфеты - не вещественное число.");
-                }
-                if (!(value >= 15))
-                {
-                    throw new CandyHeightException(
-                        "Высота конфеты не может быть меньше 15 мм.");
-                }
-                if (!(value <= 30))
-                {
-                    throw new CandyHeightException(
-                        "Высота конфеты не может быть больше 30 мм.");
-                }
-                _candyHeight = value;
-            }
-        }
-
         public double FormDepthByLength
         {
             get
@@ -154,7 +59,7 @@ namespace SweetKompasPlugin.Model
 
             private set
             {
-                if (!IsValidDouble(value))
+                if (!Validator.IsValidDouble(value))
                 {
                     throw new FormDepthByLengthException(
                         "Заданная толщина формы по длине - не вещественное число.");
@@ -182,7 +87,7 @@ namespace SweetKompasPlugin.Model
 
             private set
             {
-                if (!IsValidDouble(value))
+                if (!Validator.IsValidDouble(value))
                 {
                     throw new FormDepthByWidthException(
                         "Заданная толщина формы по ширине - не вещественное число.");
@@ -209,7 +114,7 @@ namespace SweetKompasPlugin.Model
 
             private set
             {
-                if (!IsValidDouble(value))
+                if (!Validator.IsValidDouble(value))
                 {
                     throw new FormDepthByHeightException(
                         "Заданная толщина формы по высоте - не вещественное число.");
@@ -226,30 +131,6 @@ namespace SweetKompasPlugin.Model
                 }
                 _formDepthByHeight = value;
             }
-        }
-
-        private bool IsValidInt(Int32 value)
-        {
-            if (value < Int32.MinValue
-                || value > Int32.MaxValue)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        private bool IsValidDouble(double value)
-        {
-            if (value < Double.MinValue
-                || value > Double.MaxValue
-                || Double.IsInfinity(value)
-                || Double.IsNaN(value)
-            )
-            {
-                return false;
-            }
-
-            return true;
         }
     }
 }
