@@ -200,7 +200,7 @@ namespace SweetKompasPlugin
             Stopwatch stopWatch = new Stopwatch();
 
             string fileName = DateTime.Now.ToString("yyyy.MM.dd_HH-mm-ss-") + "test.txt";
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 101; i++)
             {
                 stopWatch.Start();
 
