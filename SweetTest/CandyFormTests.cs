@@ -11,11 +11,11 @@ namespace SweetTest
     public class CandyFormTests
     {
         [TestCase(20, 5, 5, 5, 
-            TestName = "(Позитивный) Максимальные параметры консруктора")]
+            TestName = "(Позитивный) Максимальные параметры конструктора")]
         [TestCase(8, 3, 3, 3,
-            TestName = "(Позитивный) Минимальные параметры консруктора")]
+            TestName = "(Позитивный) Минимальные параметры конструктора")]
         [TestCase(14, 4, 4, 4, 
-            TestName = "(Позитивный) Средние параметры консруктора")]
+            TestName = "(Позитивный) Средние параметры конструктора")]
         [Test]
         public void TestPositiveCandyFormConstructor(
             int candyCount, double formDepthByLength, 
