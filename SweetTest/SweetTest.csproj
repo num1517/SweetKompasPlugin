@@ -56,7 +56,10 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CandyFormTests.cs" />
+    <Compile Include="CylinderCandyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RectCandyTests.cs" />
+    <Compile Include="SphereCandyTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

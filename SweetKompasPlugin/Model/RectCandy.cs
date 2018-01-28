@@ -2,7 +2,7 @@
 
 namespace SweetKompasPlugin.Model
 {
-    class RectCandy : ICandy
+    public class RectCandy : ICandy
     {
         private double _width;
         private double _height;

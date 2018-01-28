@@ -2,7 +2,7 @@
 
 namespace SweetKompasPlugin.Model
 {
-    class SphereCandy : ICandy
+    public class SphereCandy : ICandy
     {
         private double _r;
 
