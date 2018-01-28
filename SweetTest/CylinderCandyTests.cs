@@ -10,9 +10,9 @@ namespace SweetTest
     [TestFixture]
     class CylinderCandyTests
     {
-        [TestCase(10, 20,
-            TestName = "(Позитивный) Максимальные параметры конструктора цилиндрической конфеты")]
         [TestCase(25, 50,
+            TestName = "(Позитивный) Максимальные параметры конструктора цилиндрической конфеты")]
+        [TestCase(10, 20,
             TestName = "(Позитивный) Минимальные параметры конструктора цилиндрической конфеты")]
         [TestCase(17.5, 35,
             TestName = "(Позитивный) Средние параметры конструктора цилиндрической конфеты")]
@@ -65,7 +65,7 @@ namespace SweetTest
             }, Throws.TypeOf(exceptionType));
         }
 
-        [TestCase(25, TestName = "(Позитивный) Получение радиуса сферической конфеты")]
+        [TestCase(25, TestName = "(Позитивный) Получение радиуса цилиндрической конфеты")]
         [Test]
         public void TestCylinderCandyRadiusGet(double value)
         {
@@ -73,7 +73,7 @@ namespace SweetTest
             Assert.AreEqual(value, candy.R);
         }
 
-        [TestCase(50, TestName = "(Позитивный) Получение длины сферической конфеты")]
+        [TestCase(50, TestName = "(Позитивный) Получение длины цилиндрической конфеты")]
         [Test]
         public void TestCylinderCandyLengthGet(double value)
         {
