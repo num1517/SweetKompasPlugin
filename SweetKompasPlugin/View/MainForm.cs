@@ -5,7 +5,8 @@ using System.Windows.Forms;
 
 using SweetKompasPlugin.Model;
 using SweetKompasPlugin.Model.Exceptions;
-
+using System.Diagnostics;
+using System.IO;
 
 namespace SweetKompasPlugin
 {
@@ -192,6 +193,30 @@ namespace SweetKompasPlugin
         private void MainForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void StressTest_Click(object sender, EventArgs e)
+        {
+            Stopwatch stopWatch = new Stopwatch();
+
+            string fileName = DateTime.Now.ToString("yyyy.MM.dd_HH-mm-ss-") + "test.txt";
+            for (int i = 0; i < 5; i++)
+            {
+                stopWatch.Start();
+
+                BuildButton_Click(sender, e);//кнопка "построить модель" 
+
+                stopWatch.Stop();
+                FileStream file = new FileStream(fileName, FileMode.Append);
+                StreamWriter writer = new StreamWriter(file);
+
+                double time = stopWatch.Elapsed.Milliseconds + stopWatch.Elapsed.Seconds * 1000 +
+                stopWatch.Elapsed.Minutes * 60 * 1000;
+                double inSecs = time / 1000;
+                writer.Write("({0};{1})", i, inSecs);
+                writer.Close();
+                stopWatch.Reset();
+            }
         }
     }
 }

@@ -55,6 +55,7 @@
             this.CylinderCandyRadiusTextBox = new System.Windows.Forms.TextBox();
             this.CylinderCandyLengthLabel = new System.Windows.Forms.Label();
             this.CylinderCandyLengthTextBox = new System.Windows.Forms.TextBox();
+            this.StressTest = new System.Windows.Forms.Button();
             this.FormParams.SuspendLayout();
             this.CandyParams.SuspendLayout();
             this.CandyType.SuspendLayout();
@@ -333,11 +334,22 @@
             this.CylinderCandyLengthTextBox.TextChanged += new System.EventHandler(this.ChangeToBackColor);
             this.CylinderCandyLengthTextBox.Leave += new System.EventHandler(this.TextBoxValidate);
             // 
+            // StressTest
+            // 
+            this.StressTest.Location = new System.Drawing.Point(214, 338);
+            this.StressTest.Name = "StressTest";
+            this.StressTest.Size = new System.Drawing.Size(75, 23);
+            this.StressTest.TabIndex = 17;
+            this.StressTest.Text = "Stress test";
+            this.StressTest.UseVisualStyleBackColor = true;
+            this.StressTest.Click += new System.EventHandler(this.StressTest_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(347, 367);
+            this.Controls.Add(this.StressTest);
             this.Controls.Add(this.CandyParams);
             this.Controls.Add(this.FormParams);
             this.Controls.Add(this.BuildButton);
@@ -387,6 +399,7 @@
         private System.Windows.Forms.TextBox CylinderCandyRadiusTextBox;
         private System.Windows.Forms.Label CylinderCandyLengthLabel;
         private System.Windows.Forms.TextBox CylinderCandyLengthTextBox;
+        private System.Windows.Forms.Button StressTest;
     }
 }
 
