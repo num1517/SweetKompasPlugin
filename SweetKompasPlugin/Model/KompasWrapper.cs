@@ -24,7 +24,7 @@ namespace SweetKompasPlugin.Model
                 {
                     try
                     {
-                        tried++;
+                        ++tried;
                         _kompas.Visible = true;
                         retry = false;
                     }
@@ -58,7 +58,7 @@ namespace SweetKompasPlugin.Model
             double formTotalWidth = (candyForm.FormDepthByWidth * 3)
                 + (candy.Length * 2);
 
-            // 5 точка равна 1
+            // PS 5 точка равна 1 для удобства рисования
             double[] formXPoints = new double[]
             {
                 -formTotalLength / 2,
@@ -81,24 +81,23 @@ namespace SweetKompasPlugin.Model
             ksDocument3D document3D = _kompas.Document3D();
             document3D.Create();
 
-            // Создание и настройка эскиза на базовой плоскости XOY
+            // Получение компонента сборки и базовой плоскости XOY
 
             ksPart part = document3D.GetPart((short)Part_Type.pTop_Part);
             ksEntity planeXOY = part.GetDefaultEntity((short)Obj3dType.o3d_planeXOY);
+
+            // Создание и настройка эскиза
+
             ksEntity formSketch = part.NewEntity((short)Obj3dType.o3d_sketch);
             ksSketchDefinition sketchDefinition = formSketch.GetDefinition();
             sketchDefinition.SetPlane(planeXOY);
             formSketch.Create();
-
+            
             // Входим в режим редактирования эскиза
             ksDocument2D document2D = sketchDefinition.BeginEdit();
 
             // Соединение точек формы отрезками
-            for (int i = 0; i < 4; i++)
-            {
-                document2D.ksLineSeg(formXPoints[i], formYPoints[i],
-                    formXPoints[i + 1], formYPoints[i + 1], 1);
-            }
+            DrawRect(formXPoints, formYPoints, document2D);
 
             // Выходим из режима редактирования эскиза
             sketchDefinition.EndEdit();
@@ -130,7 +129,7 @@ namespace SweetKompasPlugin.Model
                 ksEntity formSurfaceSketch = part.NewEntity((short)Obj3dType.o3d_sketch);
                 ksSketchDefinition formSurfaceSketchDefinition = formSurfaceSketch.GetDefinition();
                 formSurfaceSketchDefinition.SetPlane(planeFormSurface);
-                formSurfaceSketch.Create();
+                formSurfaceSketch.Create(); 
 
                 // Входим в режим редактирования эскиза
                 ksDocument2D formSurfaceDocument2D = formSurfaceSketchDefinition.BeginEdit();
@@ -160,15 +159,12 @@ namespace SweetKompasPlugin.Model
                 };
 
                 // Рисуем  прямоугольные конфеты
-                for (int i = 0; i < candyForm.CandyCount / 2; i++)
+                for (int i = 0; i < candyForm.CandyCount / 2; ++i)
                 {
-                    for (int j = 0; j < 2; j++)
+                    for (int j = 0; j < 2; ++j)
                     {
-                        for (int k = 0; k < 4; k++)
-                        {
-                            formSurfaceDocument2D.ksLineSeg(rectCandyXPoints[k], rectCandyYPoints[k],
-                                rectCandyXPoints[k + 1], rectCandyYPoints[k + 1], 1);
-                        }
+                        DrawRect(rectCandyXPoints, rectCandyYPoints, formSurfaceDocument2D);
+
                         rectCandyYPoints = GetShiftedArray(rectCandyYPoints,
                             candy.Length + candyForm.FormDepthByWidth);
                     }
@@ -218,14 +214,8 @@ namespace SweetKompasPlugin.Model
                         // Выходим из режима редактирования эскиза
                         formSurfaceSketchDefinition.EndEdit();
 
-                        ksEntity rotate = (ksEntity)part.NewEntity((short)Obj3dType.o3d_cutRotated);
-                        ksCutRotatedDefinition rotDef = (ksCutRotatedDefinition)rotate.GetDefinition();
-                        rotDef.directionType = (short)Direction_Type.dtNormal;
-                        rotDef.cut = true;
-                        rotDef.SetSideParam(true, 360);
-                        rotDef.toroidShapeType = false;
-                        rotDef.SetSketch(formSurfaceSketch);
-                        rotate.Create();
+                        CutRotated(part, formSurfaceSketch);
+                        
                         y += candy.Length + candyForm.FormDepthByWidth;
                     }
                     y -= 2 * (candy.Length + candyForm.FormDepthByWidth);
@@ -270,31 +260,13 @@ namespace SweetKompasPlugin.Model
                         // Входим в режим редактирования эскиза
                         ksDocument2D formSurfaceDocument2D = (ksDocument2D)formSurfaceSketchDefinition.BeginEdit();
 
-                        int lineStyle = 1;
+                        DrawRect(cylinderCandyXPoints, cylinderCandyYPoints, formSurfaceDocument2D, 0);
 
-                        for (int k = 0; k < 4; ++k)
-                        {
-                            if (k==0)
-                            {
-                                // 3 = осевая линия
-                                lineStyle = 3;
-                            }
-                            formSurfaceDocument2D.ksLineSeg(cylinderCandyXPoints[k], cylinderCandyYPoints[k],
-                                cylinderCandyXPoints[k + 1], cylinderCandyYPoints[k + 1], lineStyle);
-                            lineStyle = 1;
-                        }
+                        // Выходим из режима редактирования эскиза
+                        formSurfaceSketchDefinition.EndEdit();
 
-                    // Выходим из режима редактирования эскиза
-                    formSurfaceSketchDefinition.EndEdit();
-
-                        ksEntity rotate = (ksEntity)part.NewEntity((short)Obj3dType.o3d_cutRotated);
-                        ksCutRotatedDefinition rotDef = (ksCutRotatedDefinition)rotate.GetDefinition();
-                        rotDef.directionType = (short)Direction_Type.dtNormal;
-                        rotDef.cut = true;
-                        rotDef.SetSideParam(true, 360);
-                        rotDef.toroidShapeType = false;
-                        rotDef.SetSketch(formSurfaceSketch);
-                        rotate.Create();
+                        CutRotated(part, formSurfaceSketch);
+                        
                         cylinderCandyYPoints = GetShiftedArray(cylinderCandyYPoints,
                             candy.Length + candyForm.FormDepthByWidth);
                     }
@@ -308,11 +280,39 @@ namespace SweetKompasPlugin.Model
 
         private double[] GetShiftedArray (double[] array, double shift)
         {
-            for (int i = 0; i < array.Length; i++)
+            for (int i = 0; i < array.Length; ++i)
             {
                 array[i] += shift;
             }
             return array;
+        }
+
+        private void DrawRect (double[] x, double[] y, ksDocument2D doc2d, int axisline = -1)
+        {
+            int lineStyle = 1;
+            for (int k = 0; k < 4; ++k)
+            {
+                if (k == axisline)
+                {
+                    // 3 = осевая линия
+                    lineStyle = 3;
+                }
+                doc2d.ksLineSeg(x[k], y[k],
+                    x[k + 1], y[k + 1], lineStyle);
+                lineStyle = 1;
+            }
+        }
+
+        private void CutRotated(ksPart part, ksEntity sketch)
+        {
+            ksEntity rotate = (ksEntity)part.NewEntity((short)Obj3dType.o3d_cutRotated);
+            ksCutRotatedDefinition rotDef = (ksCutRotatedDefinition)rotate.GetDefinition();
+            rotDef.directionType = (short)Direction_Type.dtNormal;
+            rotDef.cut = true;
+            rotDef.SetSideParam(true, 360);
+            rotDef.toroidShapeType = false;
+            rotDef.SetSketch(sketch);
+            rotate.Create();
         }
     }
 }
