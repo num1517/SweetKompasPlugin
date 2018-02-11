@@ -2,17 +2,28 @@
 
 namespace SweetKompasPlugin.Model
 {
+    /// <summary>
+    /// Цилиндрическая конфета
+    /// </summary>
     public class CylinderCandy : ICandy
     {
         private double _r;
         private double _length;
 
+        /// <summary>
+        /// Конструктор цилиндрической конфеты
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="length"></param>
         public CylinderCandy(double r, double length)
         {
             R = r;
             Length = length;
         }
 
+        /// <summary>
+        /// Ширина целиндрической конфеты
+        /// </summary>
         public double Width
         {
             get
@@ -21,6 +32,9 @@ namespace SweetKompasPlugin.Model
             }
         }
 
+        /// <summary>
+        /// Высота цилиндрической конфеты
+        /// </summary>
         public double Height
         {
             get
@@ -29,6 +43,9 @@ namespace SweetKompasPlugin.Model
             }
         }
 
+        /// <summary>
+        /// Радиус целиндрической конфеты
+        /// </summary>
         public double R
         {
             get
@@ -57,6 +74,9 @@ namespace SweetKompasPlugin.Model
             }
         }
 
+        /// <summary>
+        /// Длина целиндрической конфеты
+        /// </summary>
         public double Length
         {
             get
@@ -83,7 +103,6 @@ namespace SweetKompasPlugin.Model
                 }
                 _length = value;
             }
-
         }
     }
 }

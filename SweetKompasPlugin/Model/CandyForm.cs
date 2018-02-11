@@ -2,6 +2,9 @@
 
 namespace SweetKompasPlugin.Model
 {
+    /// <summary>
+    /// Конфетная форма
+    /// </summary>
     public class CandyForm
     {
         private int _candyCount;
@@ -9,6 +12,13 @@ namespace SweetKompasPlugin.Model
         private double _formDepthByWidth;
         private double _formDepthByHeight;
 
+        /// <summary>
+        /// Конструктор конфетной формы
+        /// </summary>
+        /// <param name="candyCount"></param>
+        /// <param name="formDepthByLength"></param>
+        /// <param name="formDepthByWidth"></param>
+        /// <param name="formDepthByHeight"></param>
         public CandyForm(int candyCount, double formDepthByLength, double formDepthByWidth, double formDepthByHeight)
         {
             CandyCount = candyCount;
@@ -16,7 +26,10 @@ namespace SweetKompasPlugin.Model
             FormDepthByWidth = formDepthByWidth;
             FormDepthByHeight = formDepthByHeight;
         }
-
+        
+        /// <summary>
+        /// Количество конфет на форме
+        /// </summary>
         public int CandyCount
         {
             get
@@ -50,6 +63,9 @@ namespace SweetKompasPlugin.Model
             }
         }
 
+        /// <summary>
+        /// Толщина формы по длине
+        /// </summary>
         public double FormDepthByLength
         {
             get
@@ -78,6 +94,9 @@ namespace SweetKompasPlugin.Model
             }
         }
 
+        /// <summary>
+        /// Толщина формы по ширине
+        /// </summary>
         public double FormDepthByWidth
         {
             get
@@ -106,8 +125,12 @@ namespace SweetKompasPlugin.Model
             }
         }
 
+        /// <summary>
+        /// Толщина формы по высоте
+        /// </summary>
         public double FormDepthByHeight
-        { get
+        {
+            get
             {
                 return _formDepthByHeight;
             }

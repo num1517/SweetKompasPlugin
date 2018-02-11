@@ -2,15 +2,25 @@
 
 namespace SweetKompasPlugin.Model
 {
+    /// <summary>
+    /// Сферическая конфеты
+    /// </summary>
     public class SphereCandy : ICandy
     {
         private double _r;
 
+        /// <summary>
+        /// Конструктор сферической конфеты
+        /// </summary>
+        /// <param name="r"></param>
         public SphereCandy(double r)
         {
             R = r;
         }
 
+        /// <summary>
+        /// Радиус сферической конфеты
+        /// </summary>
         public double R
         {
             get
@@ -39,6 +49,9 @@ namespace SweetKompasPlugin.Model
             }
         }
 
+        /// <summary>
+        /// Ширина сферической конфеты
+        /// </summary>
         public double Width
         {
             get
@@ -47,6 +60,10 @@ namespace SweetKompasPlugin.Model
             }
         }
 
+
+        /// <summary>
+        /// Высота сферической конфеты
+        /// </summary>
         public double Height
         {
             get
@@ -55,6 +72,9 @@ namespace SweetKompasPlugin.Model
             }
         }
 
+        /// <summary>
+        /// Длина сферической конфеты
+        /// </summary>
         public double Length
         {
             get

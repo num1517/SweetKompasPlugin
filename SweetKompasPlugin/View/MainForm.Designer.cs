@@ -343,7 +343,6 @@
             this.Controls.Add(this.BuildButton);
             this.Name = "MainForm";
             this.Text = "Sweet Kompas3D plug-in";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.FormParams.ResumeLayout(false);
             this.FormParams.PerformLayout();
             this.CandyParams.ResumeLayout(false);

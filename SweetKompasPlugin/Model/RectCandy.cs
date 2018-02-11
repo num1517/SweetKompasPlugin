@@ -2,12 +2,21 @@
 
 namespace SweetKompasPlugin.Model
 {
+    /// <summary>
+    /// Прямоугольная конфета
+    /// </summary>
     public class RectCandy : ICandy
     {
         private double _width;
         private double _height;
         private double _length;
 
+        /// <summary>
+        /// Конструктор прямоугольной конфеты
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="length"></param>
         public RectCandy(double width, double height, double length)
         {
             Width = width;
@@ -15,6 +24,9 @@ namespace SweetKompasPlugin.Model
             Length = length;
         }
 
+        /// <summary>
+        /// Ширина прямоугольной конфеты
+        /// </summary>
         public double Width
         {
             get
@@ -42,6 +54,10 @@ namespace SweetKompasPlugin.Model
                 _width = value;
             }
         }
+
+        /// <summary>
+        /// Высота прямоугольной конфеты
+        /// </summary>
         public double Height
         {
             get
@@ -69,6 +85,10 @@ namespace SweetKompasPlugin.Model
                 _height = value;
             }
         }
+
+        /// <summary>
+        /// Длина прямоугольной конфеты
+        /// </summary>
         public double Length
         {
             get

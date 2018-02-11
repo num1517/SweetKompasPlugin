@@ -9,6 +9,9 @@ using SweetKompasPlugin.Model.Exceptions;
 
 namespace SweetKompasPlugin
 {
+    /// <summary>
+    /// Главное окно программы
+    /// </summary>
     public partial class MainForm : Form
     {
         private KompasWrapper _kompasWrapper = new KompasWrapper();
@@ -40,18 +43,28 @@ namespace SweetKompasPlugin
             CylinderCandyRadiusTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
         }
 
+        /// <summary>
+        /// Кнопка построить деталь
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BuildButton_Click(object sender, EventArgs e)
         {
-            CandyForm candyForm = null;
+            // Создадим конфетну форму
 
+            CandyForm candyForm = null;
             try
             {
                 int candyCount = Convert.ToInt32(CandyCountTextBox.Text);
-                double formDepthByLength = Convert.ToDouble(FormDepthByLengthTextBox.Text);
-                double formDepthByWidth = Convert.ToDouble(FormDepthByWidthTextBox.Text);
-                double formDepthByHeight = Convert.ToDouble(FormDepthByHeightTextBox.Text);
+                double formDepthByLength = 
+                    Convert.ToDouble(FormDepthByLengthTextBox.Text);
+                double formDepthByWidth = 
+                    Convert.ToDouble(FormDepthByWidthTextBox.Text);
+                double formDepthByHeight = 
+                    Convert.ToDouble(FormDepthByHeightTextBox.Text);
 
-                candyForm = new CandyForm(candyCount, formDepthByLength, formDepthByWidth, formDepthByHeight);
+                candyForm = new CandyForm(candyCount, formDepthByLength,
+                    formDepthByWidth, formDepthByHeight);
             }
             catch (CandyCountException exception)
             {
@@ -71,11 +84,13 @@ namespace SweetKompasPlugin
             }
             catch (FormatException)
             {
-                ShowErrorMessage(null, "Невозможно построить деталь. В параметрах допущена ошибка.");
+                ShowErrorMessage(null, 
+                    "Невозможно построить деталь. В параметрах допущена ошибка.");
             }
 
-            ICandy candy = null;
+            // Создадим конфету
 
+            ICandy candy = null;
             try
             {
                 switch (CandyType.SelectedIndex)
@@ -97,12 +112,14 @@ namespace SweetKompasPlugin
             }
             catch (CandyLengthException exception)
             {
-                Label label = (CandyType.SelectedIndex == 0) ? RectCandyLengthLabel : CylinderCandyLengthLabel;
+                Label label = (CandyType.SelectedIndex == 0) 
+                    ? RectCandyLengthLabel : CylinderCandyLengthLabel;
                 ShowErrorMessage(label, exception.Message);
             }
             catch (CandyRadiusException exception)
             {
-                Label label = (CandyType.SelectedIndex == 1) ? SphereCandyRadiusLabel : CylinderCandyRadiusLabel;
+                Label label = (CandyType.SelectedIndex == 1) 
+                    ? SphereCandyRadiusLabel : CylinderCandyRadiusLabel;
                 ShowErrorMessage(label, exception.Message);
             }
             catch (CandyWidthException exception)
@@ -111,7 +128,8 @@ namespace SweetKompasPlugin
             }
             catch (FormatException)
             {
-                ShowErrorMessage(null, "Невозможно построить деталь. В параметрах допущена ошибка.");
+                ShowErrorMessage(null, 
+                    "Невозможно построить деталь. В параметрах допущена ошибка.");
             }
 
             if (candyForm != null && candy != null)
@@ -121,13 +139,24 @@ namespace SweetKompasPlugin
             }
         }
 
+        /// <summary>
+        /// Возвращение исходного цвета для лейбла привязанного к текстбоксу
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChangeToBackColor(object sender, EventArgs e)
         {
             _textBoxLabelBindDictionary[(TextBox)sender].BackColor = Color.Transparent;
         }
 
+        /// <summary>
+        /// Вывод сообщения об ошибке и подсветка лейбла связанного с этой ошибкой
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="message"></param>
         private void ShowErrorMessage(Label label, string message)
         {
+            // Сообщение об ошибки может быть не привязано к лейблу
             if (label != null)
             {
                 label.BackColor = Color.PaleVioletRed;
@@ -136,6 +165,12 @@ namespace SweetKompasPlugin
                 MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
         }
 
+        /// <summary>
+        /// Событие проверяющее чтобы текстбокс содержал 
+        /// максимум один знак разделения (точка, запятая)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void IsNumberOrDotPressed(object sender, KeyPressEventArgs e)
         {
             if (!(Char.IsControl(e.KeyChar))
@@ -152,6 +187,12 @@ namespace SweetKompasPlugin
             }
         }
 
+        /// <summary>
+        /// Проверка текстбокса на неверные 
+        /// значения (пустота или просто точка/запятая)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBoxValidate(object sender, EventArgs e)
         {
             TextBox textBox = ((TextBox)sender);
@@ -165,6 +206,10 @@ namespace SweetKompasPlugin
             }
         }
 
+        /// <summary>
+        /// Создание прямоугольной конфеты
+        /// </summary>
+        /// <returns></returns>
         private RectCandy BuildRectCandy()
         {
             double rectCandyLength = Convert.ToDouble(RectCandyLengthTextBox.Text);
@@ -174,6 +219,10 @@ namespace SweetKompasPlugin
             return new RectCandy(rectCandyWidth, rectCandyHeight, rectCandyLength);
         }
 
+        /// <summary>
+        /// Создание сферической конфеты
+        /// </summary>
+        /// <returns></returns>
         private SphereCandy BuildSphereCandy()
         {
             double sphereCandyRadius = Convert.ToDouble(SphereCandyRadiusTextBox.Text);
@@ -181,17 +230,16 @@ namespace SweetKompasPlugin
             return new SphereCandy(sphereCandyRadius);
         }
 
+        /// <summary>
+        /// Создание цилиндрической конфеты
+        /// </summary>
+        /// <returns></returns>
         private CylinderCandy BuildCylinderCandy()
         {
             double cylinderCandyRadius = Convert.ToDouble(CylinderCandyRadiusTextBox.Text);
             double cylinderCandyLength = Convert.ToDouble(CylinderCandyLengthTextBox.Text);
 
             return new CylinderCandy(cylinderCandyRadius, cylinderCandyLength);
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

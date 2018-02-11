@@ -5,10 +5,19 @@ using Kompas6Constants3D;
 
 namespace SweetKompasPlugin.Model
 {
+    /// <summary>
+    /// Класс для взаимодействия с KOMPAS
+    /// </summary>
     public class KompasWrapper
     {
+        /// <summary>
+        /// Объект KOMPAS API
+        /// </summary>
         private KompasObject _kompas = null;
 
+        /// <summary>
+        /// Запуск KOMPAS если он не запущен
+        /// </summary>
         public void StartKompas()
         {
             if (_kompas == null)
@@ -16,6 +25,7 @@ namespace SweetKompasPlugin.Model
                 Type kompasType = Type.GetTypeFromProgID("KOMPAS.Application.5");
                 _kompas = (KompasObject)Activator.CreateInstance(kompasType);
             }
+
             if (_kompas != null)
             {
                 bool retry = true;
@@ -42,6 +52,11 @@ namespace SweetKompasPlugin.Model
             }
         }
 
+        /// <summary>
+        /// Построить конфетную форму в KOMPAS
+        /// </summary>
+        /// <param name="candyForm"></param>
+        /// <param name="candy"></param>
         public void BuildCandyForm (CandyForm candyForm, ICandy candy)
         {
             if (_kompas == null)
@@ -58,7 +73,7 @@ namespace SweetKompasPlugin.Model
             double formTotalWidth = (candyForm.FormDepthByWidth * 3)
                 + (candy.Length * 2);
 
-            // PS 5 точка равна 1 для удобства рисования
+            // P.S. 5 точка равна 1 для удобства рисования
             double[] formXPoints = new double[]
             {
                 -formTotalLength / 2,
@@ -119,8 +134,6 @@ namespace SweetKompasPlugin.Model
             planeDefinition.SetPlane(part.GetDefaultEntity((short)Obj3dType.o3d_planeXOY));
             planeDefinition.offset = (candy.Height + candyForm.FormDepthByHeight) / 2;
             planeFormSurface.Create();
-
-            
 
             if (candy is RectCandy)
             {
@@ -278,6 +291,13 @@ namespace SweetKompasPlugin.Model
             }
         }
 
+        /// <summary>
+        /// Сдвиг массива.
+        /// Увеличивает все параметры массива на число.
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="shift"></param>
+        /// <returns></returns>
         private double[] GetShiftedArray (double[] array, double shift)
         {
             for (int i = 0; i < array.Length; ++i)
@@ -287,6 +307,14 @@ namespace SweetKompasPlugin.Model
             return array;
         }
 
+        /// <summary>
+        /// Рисование в компасе квадрата.
+        /// axisline = номер линии которую нужно нарисовать осевой
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="doc2d"></param>
+        /// <param name="axisline"></param>
         private void DrawRect (double[] x, double[] y, ksDocument2D doc2d, int axisline = -1)
         {
             int lineStyle = 1;
@@ -303,6 +331,12 @@ namespace SweetKompasPlugin.Model
             }
         }
 
+        /// <summary>
+        /// Вырез вращением на 360 градусов.
+        /// Эскиз обязательно должен иметь одну осевую линию
+        /// </summary>
+        /// <param name="part"></param>
+        /// <param name="sketch"></param>
         private void CutRotated(ksPart part, ksEntity sketch)
         {
             ksEntity rotate = (ksEntity)part.NewEntity((short)Obj3dType.o3d_cutRotated);
