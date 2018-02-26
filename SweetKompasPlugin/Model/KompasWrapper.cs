@@ -73,23 +73,11 @@ namespace SweetKompasPlugin.Model
             double formTotalWidth = (candySettings.FormDepthByWidth * 3)
                 + (candy.Length * 2);
 
-            // P.S. 5 точка равна 1 для удобства рисования
-            double[] formXPoints = new double[]
-            {
-                -formTotalLength / 2,
-                -formTotalLength / 2,
-                formTotalLength / 2,
-                formTotalLength / 2,
-                -formTotalLength / 2
-            };
-            double[] formYPoints = new double[]
-            {
-                -formTotalWidth / 2,
-                formTotalWidth / 2,
-                formTotalWidth / 2,
-                -formTotalWidth / 2,
-                -formTotalWidth / 2
-            };
+
+            double[] formXPoints = new double[] { 0, 0, 0, 0, 0 };
+            double[] formYPoints = new double[] { 0, 0, 0, 0, 0 };
+
+            InitCandySettingsPoints(ref formXPoints, ref formYPoints, formTotalLength, formTotalWidth);
 
             // Создание документа в компасе
 
@@ -118,22 +106,11 @@ namespace SweetKompasPlugin.Model
             sketchDefinition.EndEdit();
 
             // Выдавливание формы
-
-            ksEntity formExtrude = part.NewEntity((short)Obj3dType.o3d_bossExtrusion);
-            ksBossExtrusionDefinition formExtrudeDefinition = formExtrude.GetDefinition();
-            formExtrudeDefinition.directionType = (short)Direction_Type.dtMiddlePlane;
-            formExtrudeDefinition.SetSketch(formSketch);
-            ksExtrusionParam extrudeParam = formExtrudeDefinition.ExtrusionParam();
-            extrudeParam.depthNormal = candy.Height + candySettings.FormDepthByHeight;
-            formExtrude.Create();
+            CandySettingsExtrude(part, formSketch, candy.Height + candySettings.FormDepthByHeight);
 
             // Создание смещенной плоскости на поверхности формы
-
-            ksEntity planeFormSurface = part.NewEntity((short)Obj3dType.o3d_planeOffset);
-            ksPlaneOffsetDefinition planeDefinition = planeFormSurface.GetDefinition();
-            planeDefinition.SetPlane(part.GetDefaultEntity((short)Obj3dType.o3d_planeXOY));
-            planeDefinition.offset = (candy.Height + candySettings.FormDepthByHeight) / 2;
-            planeFormSurface.Create();
+            ksEntity planeFormSurface = CreateShiftedPlane(part, planeXOY, 
+                (candy.Height + candySettings.FormDepthByHeight) / 2);
 
             if (candy is RectCandy)
             {
@@ -150,26 +127,11 @@ namespace SweetKompasPlugin.Model
                 // Расчитаем положение первой конфеты
                 // Положение других конфет расчитаем путем сдвига первой
 
-                double[] rectCandyXPoints = new double[]
-                {
-                (-formTotalLength / 2) + candySettings.FormDepthByLength,
-                (-formTotalLength / 2) + candySettings.FormDepthByLength,
-                (-formTotalLength / 2) + candySettings.FormDepthByLength
-                    + candy.Width,
-                (-formTotalLength / 2) + candySettings.FormDepthByLength
-                    + candy.Width,
-                (-formTotalLength / 2) + candySettings.FormDepthByLength
-                };
-                double[] rectCandyYPoints = new double[]
-                {
-                (-formTotalWidth / 2) + candySettings.FormDepthByWidth,
-                (-formTotalWidth / 2) + candySettings.FormDepthByWidth
-                    + candy.Length,
-                (-formTotalWidth / 2) + candySettings.FormDepthByWidth
-                    + candy.Length,
-                (-formTotalWidth / 2) + candySettings.FormDepthByWidth,
-                (-formTotalWidth / 2) + candySettings.FormDepthByWidth
-                };
+                double[] rectCandyXPoints = new double[] { 0, 0, 0, 0, 0 };
+                double[] rectCandyYPoints = new double[] { 0, 0, 0, 0, 0 };
+
+                InitRectCandyPoints(ref rectCandyXPoints, ref rectCandyYPoints,
+                    formTotalLength, formTotalWidth, candySettings, candy);
 
                 // Рисуем  прямоугольные конфеты
                 for (int i = 0; i < candySettings.CandyCount / 2; ++i)
@@ -190,16 +152,8 @@ namespace SweetKompasPlugin.Model
                 // Выходим из режима редактирования эскиза
                 formSurfaceSketchDefinition.EndEdit();
 
-
                 // Вырезаем прямоугольные конфетки ^_^
-
-                ksEntity cutExtrude = part.NewEntity((short)Obj3dType.o3d_cutExtrusion);
-                ksCutExtrusionDefinition cutextrDefinition = cutExtrude.GetDefinition();
-                cutextrDefinition.directionType = (short)Direction_Type.dtNormal;
-                cutextrDefinition.SetSketch(formSurfaceSketch);
-                ksExtrusionParam cutExtrudeParam = cutextrDefinition.ExtrusionParam();
-                cutExtrudeParam.depthNormal = candy.Height;
-                cutExtrude.Create();
+                CutExtrude(part, formSurfaceSketch, candy.Height);
             }
 
             if (candy is SphereCandy)
@@ -238,26 +192,11 @@ namespace SweetKompasPlugin.Model
 
             if (candy is CylinderCandy)
             {
-                double[] cylinderCandyXPoints = new double[]
-                {
-                (-formTotalLength / 2) + candySettings.FormDepthByLength + candy.Width/2,
-                (-formTotalLength / 2) + candySettings.FormDepthByLength + candy.Width/2,
-                (-formTotalLength / 2) + candySettings.FormDepthByLength
-                    + candy.Width,
-                (-formTotalLength / 2) + candySettings.FormDepthByLength
-                    + candy.Width,
-                (-formTotalLength / 2) + candySettings.FormDepthByLength + candy.Width/2
-                };
-                double[] cylinderCandyYPoints = new double[]
-                {
-                (-formTotalWidth / 2) + candySettings.FormDepthByWidth,
-                (-formTotalWidth / 2) + candySettings.FormDepthByWidth
-                    + candy.Length,
-                (-formTotalWidth / 2) + candySettings.FormDepthByWidth
-                    + candy.Length,
-                (-formTotalWidth / 2) + candySettings.FormDepthByWidth,
-                (-formTotalWidth / 2) + candySettings.FormDepthByWidth
-                };
+                double[] cylinderCandyXPoints = new double[] { 0, 0, 0, 0, 0 };
+                double[] cylinderCandyYPoints = new double[] { 0, 0, 0, 0, 0 };
+
+                InitCylinderCandyPoints(ref cylinderCandyXPoints, ref cylinderCandyYPoints, 
+                    formTotalLength, formTotalWidth, candySettings, candy);
 
                 for (int i = 0; i < candySettings.CandyCount / 2; ++i)
                 {
@@ -347,6 +286,147 @@ namespace SweetKompasPlugin.Model
             rotDef.toroidShapeType = false;
             rotDef.SetSketch(sketch);
             rotate.Create();
+        }
+
+        /// <summary>
+        /// Выдавливание формы
+        /// </summary>
+        /// <param name="part"></param>
+        /// <param name="formSketch"></param>
+        /// <param name="depth"></param>
+        private void CandySettingsExtrude(ksPart part, ksEntity formSketch, double depth)
+        {
+            ksEntity formExtrude = part.NewEntity((short)Obj3dType.o3d_bossExtrusion);
+            ksBossExtrusionDefinition formExtrudeDefinition = formExtrude.GetDefinition();
+            formExtrudeDefinition.directionType = (short)Direction_Type.dtMiddlePlane;
+            formExtrudeDefinition.SetSketch(formSketch);
+            ksExtrusionParam extrudeParam = formExtrudeDefinition.ExtrusionParam();
+            extrudeParam.depthNormal = depth;
+            formExtrude.Create();
+        }
+
+        /// <summary>
+        /// Создание сдвинутой плоскости
+        /// </summary>
+        /// <param name="part"></param>
+        private ksEntity CreateShiftedPlane(ksPart part, ksEntity basePlane, double offset)
+        {
+            ksEntity planeFormSurface = part.NewEntity((short)Obj3dType.o3d_planeOffset);
+            ksPlaneOffsetDefinition planeDefinition = planeFormSurface.GetDefinition();
+            planeDefinition.SetPlane(basePlane);
+            planeDefinition.offset = offset;
+            planeFormSurface.Create();
+            return planeFormSurface;
+        }
+
+        /// <summary>
+        /// Расчет точек конфетной формы
+        /// </summary>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
+        /// <param name="formTotalLength"></param>
+        /// <param name="formTotalWidth"></param>
+        private void InitCandySettingsPoints(ref double[] X, ref double[] Y, 
+            double formTotalLength, double formTotalWidth)
+        {
+            X = new double[]
+            {
+                -formTotalLength / 2,
+                -formTotalLength / 2,
+                formTotalLength / 2,
+                formTotalLength / 2,
+                -formTotalLength / 2
+            };
+
+            Y = new double[]
+            {
+                -formTotalWidth / 2,
+                formTotalWidth / 2,
+                formTotalWidth / 2,
+                -formTotalWidth / 2,
+                -formTotalWidth / 2
+            };
+        }
+
+        /// <summary>
+        /// Расчет точек прямоугольной конфеты
+        /// </summary>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
+        /// <param name="formTotalLength"></param>
+        /// <param name="formTotalWidth"></param>
+        /// <param name="candySettings"></param>
+        /// <param name="candy"></param>
+        private void InitRectCandyPoints(ref double[] X, ref double[] Y, 
+            double formTotalLength, double formTotalWidth, 
+            CandySettings candySettings, ICandy candy)
+        {
+            X = new double[]
+                {
+                (-formTotalLength / 2) + candySettings.FormDepthByLength,
+                (-formTotalLength / 2) + candySettings.FormDepthByLength,
+                (-formTotalLength / 2) + candySettings.FormDepthByLength
+                    + candy.Width,
+                (-formTotalLength / 2) + candySettings.FormDepthByLength
+                    + candy.Width,
+                (-formTotalLength / 2) + candySettings.FormDepthByLength
+                };
+            Y = new double[]
+            {
+                (-formTotalWidth / 2) + candySettings.FormDepthByWidth,
+                (-formTotalWidth / 2) + candySettings.FormDepthByWidth
+                    + candy.Length,
+                (-formTotalWidth / 2) + candySettings.FormDepthByWidth
+                    + candy.Length,
+                (-formTotalWidth / 2) + candySettings.FormDepthByWidth,
+                (-formTotalWidth / 2) + candySettings.FormDepthByWidth
+            };
+        }
+
+        /// <summary>
+        /// Расчет точек цилиндрической конфеты
+        /// </summary>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
+        /// <param name="formTotalLength"></param>
+        /// <param name="formTotalWidth"></param>
+        /// <param name="candySettings"></param>
+        /// <param name="candy"></param>
+        private void InitCylinderCandyPoints(ref double[] X, ref double[] Y, 
+            double formTotalLength, double formTotalWidth, 
+            CandySettings candySettings, ICandy candy)
+        {
+            X = new double[]
+                {
+                (-formTotalLength / 2) + candySettings.FormDepthByLength + candy.Width/2,
+                (-formTotalLength / 2) + candySettings.FormDepthByLength + candy.Width/2,
+                (-formTotalLength / 2) + candySettings.FormDepthByLength
+                    + candy.Width,
+                (-formTotalLength / 2) + candySettings.FormDepthByLength
+                    + candy.Width,
+                (-formTotalLength / 2) + candySettings.FormDepthByLength + candy.Width/2
+                };
+            Y = new double[]
+            {
+                (-formTotalWidth / 2) + candySettings.FormDepthByWidth,
+                (-formTotalWidth / 2) + candySettings.FormDepthByWidth
+                    + candy.Length,
+                (-formTotalWidth / 2) + candySettings.FormDepthByWidth
+                    + candy.Length,
+                (-formTotalWidth / 2) + candySettings.FormDepthByWidth,
+                (-formTotalWidth / 2) + candySettings.FormDepthByWidth
+            };
+        }
+
+        private void CutExtrude(ksPart part, ksEntity sketch, double depth)
+        {
+            ksEntity cutExtrude = part.NewEntity((short)Obj3dType.o3d_cutExtrusion);
+            ksCutExtrusionDefinition cutextrDefinition = cutExtrude.GetDefinition();
+            cutextrDefinition.directionType = (short)Direction_Type.dtNormal;
+            cutextrDefinition.SetSketch(sketch);
+            ksExtrusionParam cutExtrudeParam = cutextrDefinition.ExtrusionParam();
+            cutExtrudeParam.depthNormal = depth;
+            cutExtrude.Create();
         }
     }
 }
