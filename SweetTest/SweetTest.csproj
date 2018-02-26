@@ -55,7 +55,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CandyFormTests.cs" />
+    <Compile Include="CandySettingsTests.cs" />
     <Compile Include="CylinderCandyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RectCandyTests.cs" />

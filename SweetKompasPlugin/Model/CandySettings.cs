@@ -5,7 +5,7 @@ namespace SweetKompasPlugin.Model
     /// <summary>
     /// Конфетная форма
     /// </summary>
-    public class CandyForm
+    public class CandySettings
     {
         private int _candyCount;
         private double _formDepthByLength;
@@ -19,7 +19,7 @@ namespace SweetKompasPlugin.Model
         /// <param name="formDepthByLength"></param>
         /// <param name="formDepthByWidth"></param>
         /// <param name="formDepthByHeight"></param>
-        public CandyForm(int candyCount, double formDepthByLength, double formDepthByWidth, double formDepthByHeight)
+        public CandySettings(int candyCount, double formDepthByLength, double formDepthByWidth, double formDepthByHeight)
         {
             CandyCount = candyCount;
             FormDepthByLength = formDepthByLength;

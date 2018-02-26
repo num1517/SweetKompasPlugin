@@ -52,7 +52,7 @@ namespace SweetKompasPlugin
         {
             // Создадим конфетну форму
 
-            CandyForm candyForm = null;
+            CandySettings candySettings = null;
             try
             {
                 int candyCount = Convert.ToInt32(CandyCountTextBox.Text);
@@ -63,7 +63,7 @@ namespace SweetKompasPlugin
                 double formDepthByHeight = 
                     Convert.ToDouble(FormDepthByHeightTextBox.Text);
 
-                candyForm = new CandyForm(candyCount, formDepthByLength,
+                candySettings = new CandySettings(candyCount, formDepthByLength,
                     formDepthByWidth, formDepthByHeight);
             }
             catch (CandyCountException exception)
@@ -132,10 +132,10 @@ namespace SweetKompasPlugin
                     "Невозможно построить деталь. В параметрах допущена ошибка.");
             }
 
-            if (candyForm != null && candy != null)
+            if (candySettings != null && candy != null)
             {
                 _kompasWrapper.StartKompas();
-                _kompasWrapper.BuildCandyForm(candyForm, candy);
+                _kompasWrapper.BuildCandyForm(candySettings, candy);
             }
         }
 

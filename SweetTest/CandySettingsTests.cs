@@ -8,7 +8,7 @@ using SweetKompasPlugin.Model.Exceptions;
 namespace SweetTest
 {
     [TestFixture]
-    public class CandyFormTests
+    public class CandySettingsTests
     {
         [TestCase(20, 5, 5, 5, 
             TestName = "(Позитивный) Максимальные параметры конструктора")]
@@ -17,13 +17,13 @@ namespace SweetTest
         [TestCase(14, 4, 4, 4, 
             TestName = "(Позитивный) Средние параметры конструктора")]
         [Test]
-        public void TestPositiveCandyFormConstructor(
+        public void TestPositiveCandySettingsConstructor(
             int candyCount, double formDepthByLength, 
             double formDepthByWidth, double formDepthByHeight)
         {
             Assert.DoesNotThrow((() =>
             {
-                new CandyForm(candyCount,formDepthByLength, 
+                new CandySettings(candyCount,formDepthByLength, 
                     formDepthByWidth, formDepthByHeight);
             }
             ));
@@ -84,14 +84,14 @@ namespace SweetTest
             TestName = "(Негативный) Толщина формы по высоте double.positiveinfinity")]
 
         [Test]
-        public void TestNegativeCandyFormConstructor(
+        public void TestNegativeCandySettingsConstructor(
             int candyCount, double formDepthByLength, 
             double formDepthByWidth, double formDepthByHeight, 
             Type exceptionType)
         {
             Assert.That(() =>
             {
-                new CandyForm(candyCount, formDepthByLength,
+                new CandySettings(candyCount, formDepthByLength,
                     formDepthByWidth, formDepthByHeight);
             }, Throws.TypeOf(exceptionType));
         }
@@ -100,36 +100,36 @@ namespace SweetTest
         [Test]
         public void TestCandyCountGet(double value)
         {
-            CandyForm candyForm =
-                new CandyForm(20, 5, 5, 5);
-            Assert.AreEqual(value, candyForm.CandyCount);
+            CandySettings candySettings =
+                new CandySettings(20, 5, 5, 5);
+            Assert.AreEqual(value, candySettings.CandyCount);
         }
 
         [TestCase(5, TestName = "(Позитивный) Получение толщины формы по длине")]
         [Test]
         public void TestFormDepthByLengthGet(double value)
         {
-            CandyForm candyForm =
-                new CandyForm(20, 5, 5, 5);
-            Assert.AreEqual(value, candyForm.FormDepthByLength);
+            CandySettings candySettings =
+                new CandySettings(20, 5, 5, 5);
+            Assert.AreEqual(value, candySettings.FormDepthByLength);
         }
 
         [TestCase(5, TestName = "(Позитивный) Получение толщины формы по ширине")]
         [Test]
         public void TestFormDepthByWidthGet(double value)
         {
-            CandyForm candyForm =
-                new CandyForm(20, 5, 5, 5);
-            Assert.AreEqual(value, candyForm.FormDepthByWidth);
+            CandySettings candySettings =
+                new CandySettings(20, 5, 5, 5);
+            Assert.AreEqual(value, candySettings.FormDepthByWidth);
         }
 
         [TestCase(5, TestName = "(Позитивный) Получение толщины формы по высоте")]
         [Test]
         public void TestFormDepthByHeightGet(double value)
         {
-            CandyForm candyForm =
-                new CandyForm(20, 5, 5, 5);
-            Assert.AreEqual(value, candyForm.FormDepthByHeight);
+            CandySettings candySettings =
+                new CandySettings(20, 5, 5, 5);
+            Assert.AreEqual(value, candySettings.FormDepthByHeight);
         }
     }
 }
