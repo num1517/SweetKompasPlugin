@@ -6,7 +6,7 @@ namespace SweetKompasPlugin.Model
     /// Валидация параметров
     /// true - валидация пройдена
     /// </summary>
-    class Validator
+    public class Validator
     {
         /// <summary>
         /// Валидация целого числа

@@ -8,7 +8,7 @@ using SweetKompasPlugin.Model.Exceptions;
 namespace SweetTest
 {
     [TestFixture]
-    class SphereCandyTests
+    public class SphereCandyTests
     {
         [TestCase(25,
             TestName = "(Позитивный) Максимальные параметры конструктора сферической конфеты")]
