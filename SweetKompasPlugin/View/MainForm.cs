@@ -135,7 +135,7 @@ namespace SweetKompasPlugin
             if (candySettings != null && candy != null)
             {
                 _kompasWrapper.StartKompas();
-                _kompasWrapper.BuildCandyForm(candySettings, candy);
+                _kompasWrapper.BuildCandySettings(candySettings, candy);
             }
         }
 

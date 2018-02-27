@@ -57,7 +57,7 @@ namespace SweetKompasPlugin.Model
         /// </summary>
         /// <param name="candySettings"></param>
         /// <param name="candy"></param>
-        public void BuildCandyForm (CandySettings candySettings, ICandy candy)
+        public void BuildCandySettings (CandySettings candySettings, ICandy candy)
         {
             if (_kompas == null)
             {
