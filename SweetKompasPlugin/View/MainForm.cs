@@ -90,7 +90,7 @@ namespace SweetKompasPlugin
 
             // Создадим конфету
 
-            ICandy candy = null;
+            Candy candy = null;
             try
             {
                 switch (CandyType.SelectedIndex)
@@ -210,36 +210,36 @@ namespace SweetKompasPlugin
         /// Создание прямоугольной конфеты
         /// </summary>
         /// <returns></returns>
-        private RectCandy BuildRectCandy()
+        private Rect BuildRectCandy()
         {
             double rectCandyLength = Convert.ToDouble(RectCandyLengthTextBox.Text);
             double rectCandyWidth = Convert.ToDouble(RectCandyWidthTextBox.Text);
             double rectCandyHeight = Convert.ToDouble(RectCandyHeightTextBox.Text);
 
-            return new RectCandy(rectCandyWidth, rectCandyHeight, rectCandyLength);
+            return new Rect(rectCandyWidth, rectCandyHeight, rectCandyLength);
         }
 
         /// <summary>
         /// Создание сферической конфеты
         /// </summary>
         /// <returns></returns>
-        private SphereCandy BuildSphereCandy()
+        private Sphere BuildSphereCandy()
         {
             double sphereCandyRadius = Convert.ToDouble(SphereCandyRadiusTextBox.Text);
 
-            return new SphereCandy(sphereCandyRadius);
+            return new Sphere(sphereCandyRadius);
         }
 
         /// <summary>
         /// Создание цилиндрической конфеты
         /// </summary>
         /// <returns></returns>
-        private CylinderCandy BuildCylinderCandy()
+        private Cylinder BuildCylinderCandy()
         {
             double cylinderCandyRadius = Convert.ToDouble(CylinderCandyRadiusTextBox.Text);
             double cylinderCandyLength = Convert.ToDouble(CylinderCandyLengthTextBox.Text);
 
-            return new CylinderCandy(cylinderCandyRadius, cylinderCandyLength);
+            return new Cylinder(cylinderCandyRadius, cylinderCandyLength);
         }
     }
 }
