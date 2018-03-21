@@ -9,10 +9,14 @@ using Kompas6Constants3D;
 
 namespace SweetKompasPlugin.Model
 {
-    class Sphere : Candy
+    class Sphere : CandyBase
     {
         private double _r;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="r"></param>
         public Sphere(double r)
         {
             R = r;

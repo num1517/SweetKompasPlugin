@@ -90,7 +90,7 @@ namespace SweetKompasPlugin
 
             // Создадим конфету
 
-            Candy candy = null;
+            CandyBase candy = null;
             try
             {
                 switch (CandyType.SelectedIndex)

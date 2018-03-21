@@ -9,7 +9,7 @@ using Kompas6Constants3D;
 
 namespace SweetKompasPlugin.Model
 {
-    class Rect : Candy
+    class Rect : CandyBase
     {
         private double _width;
         private double _height;
@@ -115,7 +115,8 @@ namespace SweetKompasPlugin.Model
             }
         }
 
-        public override void Build(ksPart part, ksEntity planeFormSurface, CandySettings candySettings, double formTotalLength, double formTotalWidth)
+        public override void Build(ksPart part, ksEntity planeFormSurface, 
+            CandySettings candySettings, double formTotalLength, double formTotalWidth)
         {
             // Создание и настройка эскиза на поверхности формы (смещенной плоскости)
 

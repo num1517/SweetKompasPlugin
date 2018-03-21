@@ -61,7 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Candy.cs" />
+    <Compile Include="Model\CandyBase.cs" />
     <Compile Include="Model\CandySettings.cs" />
     <Compile Include="Model\Cylinder.cs" />
     <Compile Include="Model\Exceptions\CandyCountException.cs" />

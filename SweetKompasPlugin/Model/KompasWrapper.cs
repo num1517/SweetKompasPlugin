@@ -15,7 +15,11 @@ namespace SweetKompasPlugin.Model
         /// Объект KOMPAS API
         /// </summary>
         private KompasObject _kompas = null;
-        private Dictionary<Type, int> candyTypes = new Dictionary<Type, int>
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private Dictionary<Type, int> _candyTypes = new Dictionary<Type, int>
         {
             { typeof(Rect), 0 },
             { typeof(Sphere), 1 },
@@ -64,7 +68,7 @@ namespace SweetKompasPlugin.Model
         /// </summary>
         /// <param name="candySettings"></param>
         /// <param name="candy"></param>
-        public void BuildCandySettings (CandySettings candySettings, Candy candy)
+        public void BuildCandySettings (CandySettings candySettings, CandyBase candy)
         {
             if (_kompas == null)
             {
@@ -107,7 +111,7 @@ namespace SweetKompasPlugin.Model
             ksDocument2D document2D = sketchDefinition.BeginEdit();
 
             // Соединение точек формы отрезками
-            Candy.DrawRect(formXPoints, formYPoints, document2D);
+            CandyBase.DrawRect(formXPoints, formYPoints, document2D);
 
             // Выходим из режима редактирования эскиза
             sketchDefinition.EndEdit();
@@ -180,12 +184,6 @@ namespace SweetKompasPlugin.Model
                 -formTotalWidth / 2,
                 -formTotalWidth / 2
             };
-        }
-
-        
-
-        
-
-        
+        }        
     }
 }

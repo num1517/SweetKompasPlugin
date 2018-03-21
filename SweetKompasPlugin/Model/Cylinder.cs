@@ -9,18 +9,32 @@ using SweetKompasPlugin.Model.Exceptions;
 
 namespace SweetKompasPlugin.Model
 {
-    class Cylinder : Candy
+    class Cylinder : CandyBase
     {
         private double _r;
         private double _length;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="length"></param>
         public Cylinder(double r, double length)
         {
             R = r;
             Length = length;
         }
 
-        public override void Build(ksPart part, ksEntity planeFormSurface, CandySettings candySettings, double formTotalLength, double formTotalWidth)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="part"></param>
+        /// <param name="planeFormSurface"></param>
+        /// <param name="candySettings"></param>
+        /// <param name="formTotalLength"></param>
+        /// <param name="formTotalWidth"></param>
+        public override void Build(ksPart part, ksEntity planeFormSurface, 
+            CandySettings candySettings, double formTotalLength, double formTotalWidth)
         {
             double[] cylinderCandyXPoints = new double[] { 0, 0, 0, 0, 0 };
             double[] cylinderCandyYPoints = new double[] { 0, 0, 0, 0, 0 };
