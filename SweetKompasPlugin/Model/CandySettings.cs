@@ -19,7 +19,8 @@ namespace SweetKompasPlugin.Model
         /// <param name="formDepthByLength"></param>
         /// <param name="formDepthByWidth"></param>
         /// <param name="formDepthByHeight"></param>
-        public CandySettings(int candyCount, double formDepthByLength, double formDepthByWidth, double formDepthByHeight)
+        public CandySettings(int candyCount, double formDepthByLength, 
+            double formDepthByWidth, double formDepthByHeight)
         {
             CandyCount = candyCount;
             FormDepthByLength = formDepthByLength;
@@ -78,7 +79,8 @@ namespace SweetKompasPlugin.Model
                 if (!Validator.IsValidDouble(value))
                 {
                     throw new FormDepthByLengthException(
-                        "Заданная толщина формы по длине - не вещественное число.");
+                        "Заданная толщина формы по длине - " 
+                        + "не вещественное число.");
                 }
                 if (!(value >= 3))
                 {
@@ -109,17 +111,20 @@ namespace SweetKompasPlugin.Model
                 if (!Validator.IsValidDouble(value))
                 {
                     throw new FormDepthByWidthException(
-                        "Заданная толщина формы по ширине - не вещественное число.");
+                        "Заданная толщина формы по ширине - не "
+                        + "вещественное число.");
                 }
                 if (!(value >= 3))
                 {
                     throw new FormDepthByWidthException(
-                        "Толщина формы по ширине не может быть меньше 3 мм.");
+                        "Толщина формы по ширине " 
+                        + "не может быть меньше 3 мм.");
                 }
                 if (!(value <= 5))
                 {
                     throw new FormDepthByWidthException(
-                        "Толщина формы по ширине не может быть больше 5 мм.");
+                        "Толщина формы по ширине " 
+                        + "не может быть больше 5 мм.");
                 }
                 _formDepthByWidth = value;
             }
@@ -140,17 +145,20 @@ namespace SweetKompasPlugin.Model
                 if (!Validator.IsValidDouble(value))
                 {
                     throw new FormDepthByHeightException(
-                        "Заданная толщина формы по высоте - не вещественное число.");
+                        "Заданная толщина формы по высоте - " 
+                        + "не вещественное число.");
                 }
                 if (!(value >= 3))
                 {
                     throw new FormDepthByHeightException(
-                        "Толщина формы по высоте не может быть меньше 3 мм.");
+                        "Толщина формы по высоте " 
+                        + "не может быть меньше 3 мм.");
                 }
                 if (!(value <= 5))
                 {
                     throw new FormDepthByHeightException(
-                        "Толщина формы по высоте не может быть больше 5 мм.");
+                        "Толщина формы по высоте " 
+                        + "не может быть больше 5 мм.");
                 }
                 _formDepthByHeight = value;
             }

@@ -11,7 +11,7 @@ namespace SweetKompasPlugin.Model
     abstract public class CandyBase
     {
         /// <summary>
-        /// Построение конфеты
+        /// Построение выреза конфеты
         /// </summary>
         /// <param name="part"></param>
         /// <param name="planeFormSurface"></param>
@@ -20,7 +20,8 @@ namespace SweetKompasPlugin.Model
         /// <param name="formTotalLength"></param>
         /// <param name="formTotalWidth"></param>
         public abstract void Build(ksPart part, ksEntity planeFormSurface, 
-            CandySettings candySettings, double formTotalLength, double formTotalWidth);
+            CandySettings candySettings, double formTotalLength, 
+            double formTotalWidth);
 
         /// <summary>
         /// Рисование в компасе квадрата.
@@ -30,7 +31,8 @@ namespace SweetKompasPlugin.Model
         /// <param name="y"></param>
         /// <param name="doc2d"></param>
         /// <param name="axisline"></param>
-        public static void DrawRect(double[] x, double[] y, ksDocument2D doc2d, int axisline = -1)
+        public static void DrawRect(double[] x, double[] y, 
+            ksDocument2D doc2d, int axisline = -1)
         {
             int lineStyle = 1;
             for (int k = 0; k < 4; ++k)
@@ -70,8 +72,10 @@ namespace SweetKompasPlugin.Model
         /// <param name="sketch"></param>
         protected void CutRotated(ksPart part, ksEntity sketch)
         {
-            ksEntity rotate = (ksEntity)part.NewEntity((short)Obj3dType.o3d_cutRotated);
-            ksCutRotatedDefinition rotDef = (ksCutRotatedDefinition)rotate.GetDefinition();
+            ksEntity rotate = 
+                (ksEntity)part.NewEntity((short)Obj3dType.o3d_cutRotated);
+            ksCutRotatedDefinition rotDef = 
+                (ksCutRotatedDefinition)rotate.GetDefinition();
             rotDef.directionType = (short)Direction_Type.dtNormal;
             rotDef.cut = true;
             rotDef.SetSideParam(true, 360);
@@ -86,13 +90,18 @@ namespace SweetKompasPlugin.Model
         /// <param name="part"></param>
         /// <param name="sketch"></param>
         /// <param name="depth"></param>
-        protected void CutExtrude(ksPart part, ksEntity sketch, double depth)
+        protected void CutExtrude(ksPart part, ksEntity sketch, 
+            double depth)
         {
-            ksEntity cutExtrude = part.NewEntity((short)Obj3dType.o3d_cutExtrusion);
-            ksCutExtrusionDefinition cutextrDefinition = cutExtrude.GetDefinition();
-            cutextrDefinition.directionType = (short)Direction_Type.dtNormal;
+            ksEntity cutExtrude = 
+                part.NewEntity((short)Obj3dType.o3d_cutExtrusion);
+            ksCutExtrusionDefinition cutextrDefinition = 
+                cutExtrude.GetDefinition();
+            cutextrDefinition.directionType = 
+                (short)Direction_Type.dtNormal;
             cutextrDefinition.SetSketch(sketch);
-            ksExtrusionParam cutExtrudeParam = cutextrDefinition.ExtrusionParam();
+            ksExtrusionParam cutExtrudeParam = 
+                cutextrDefinition.ExtrusionParam();
             cutExtrudeParam.depthNormal = depth;
             cutExtrude.Create();
         }

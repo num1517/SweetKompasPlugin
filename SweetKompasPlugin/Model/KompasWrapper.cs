@@ -17,9 +17,10 @@ namespace SweetKompasPlugin.Model
         private KompasObject _kompas = null;
 
         /// <summary>
-        /// 
+        /// Словарь типов конфет
         /// </summary>
-        private Dictionary<Type, int> _candyTypes = new Dictionary<Type, int>
+        private Dictionary<Type, int> _candyTypes = 
+            new Dictionary<Type, int>
         {
             { typeof(Rect), 0 },
             { typeof(Sphere), 1 },
@@ -33,7 +34,8 @@ namespace SweetKompasPlugin.Model
         {
             if (_kompas == null)
             {
-                Type kompasType = Type.GetTypeFromProgID("KOMPAS.Application.5");
+                Type kompasType = 
+                    Type.GetTypeFromProgID("KOMPAS.Application.5");
                 _kompas = (KompasObject)Activator.CreateInstance(kompasType);
             }
 
@@ -51,8 +53,10 @@ namespace SweetKompasPlugin.Model
                     }
                     catch (System.Runtime.InteropServices.COMException)
                     {
-                        Type kompasType = Type.GetTypeFromProgID("KOMPAS.Application.5");
-                        _kompas = (KompasObject)Activator.CreateInstance(kompasType);
+                        Type kompasType = 
+                            Type.GetTypeFromProgID("KOMPAS.Application.5");
+                        _kompas = 
+                            (KompasObject)Activator.CreateInstance(kompasType);
                         if (tried > 3)
                         {
                             retry = false;
@@ -68,7 +72,8 @@ namespace SweetKompasPlugin.Model
         /// </summary>
         /// <param name="candySettings"></param>
         /// <param name="candy"></param>
-        public void BuildCandySettings (CandySettings candySettings, CandyBase candy)
+        public void BuildCandySettings (CandySettings candySettings, 
+            CandyBase candy)
         {
             if (_kompas == null)
             {
@@ -79,7 +84,8 @@ namespace SweetKompasPlugin.Model
             // Рисуем форму
 
             double formTotalLength = candySettings.FormDepthByLength
-                + (candySettings.FormDepthByLength * candySettings.CandyCount / 2)
+                + (candySettings.FormDepthByLength 
+                * candySettings.CandyCount / 2)
                 + (candy.Width * candySettings.CandyCount / 2);
             double formTotalWidth = (candySettings.FormDepthByWidth * 3)
                 + (candy.Length * 2);
@@ -88,7 +94,8 @@ namespace SweetKompasPlugin.Model
             double[] formXPoints = new double[] { 0, 0, 0, 0, 0 };
             double[] formYPoints = new double[] { 0, 0, 0, 0, 0 };
 
-            InitCandySettingsPoints(ref formXPoints, ref formYPoints, formTotalLength, formTotalWidth);
+            InitCandySettingsPoints(ref formXPoints, ref formYPoints, 
+                formTotalLength, formTotalWidth);
 
             // Создание документа в компасе
 
@@ -98,12 +105,15 @@ namespace SweetKompasPlugin.Model
             // Получение компонента сборки и базовой плоскости XOY
 
             ksPart part = document3D.GetPart((short)Part_Type.pTop_Part);
-            ksEntity planeXOY = part.GetDefaultEntity((short)Obj3dType.o3d_planeXOY);
+            ksEntity planeXOY = 
+                part.GetDefaultEntity((short)Obj3dType.o3d_planeXOY);
 
             // Создание и настройка эскиза
 
-            ksEntity formSketch = part.NewEntity((short)Obj3dType.o3d_sketch);
-            ksSketchDefinition sketchDefinition = formSketch.GetDefinition();
+            ksEntity formSketch = 
+                part.NewEntity((short)Obj3dType.o3d_sketch);
+            ksSketchDefinition sketchDefinition = 
+                formSketch.GetDefinition();
             sketchDefinition.SetPlane(planeXOY);
             formSketch.Create();
             
@@ -117,13 +127,15 @@ namespace SweetKompasPlugin.Model
             sketchDefinition.EndEdit();
 
             // Выдавливание формы
-            CandySettingsExtrude(part, formSketch, candy.Height + candySettings.FormDepthByHeight);
+            CandySettingsExtrude(part, formSketch, 
+                candy.Height + candySettings.FormDepthByHeight);
 
             // Создание смещенной плоскости на поверхности формы
             ksEntity planeFormSurface = CreateShiftedPlane(part, planeXOY, 
                 (candy.Height + candySettings.FormDepthByHeight) / 2);
 
-            candy.Build(part, planeFormSurface, candySettings, formTotalLength, formTotalWidth);
+            candy.Build(part, planeFormSurface, candySettings, 
+                formTotalLength, formTotalWidth);
         }
 
         /// <summary>
@@ -132,13 +144,18 @@ namespace SweetKompasPlugin.Model
         /// <param name="part"></param>
         /// <param name="formSketch"></param>
         /// <param name="depth"></param>
-        private void CandySettingsExtrude(ksPart part, ksEntity formSketch, double depth)
+        private void CandySettingsExtrude(ksPart part, ksEntity formSketch, 
+            double depth)
         {
-            ksEntity formExtrude = part.NewEntity((short)Obj3dType.o3d_bossExtrusion);
-            ksBossExtrusionDefinition formExtrudeDefinition = formExtrude.GetDefinition();
-            formExtrudeDefinition.directionType = (short)Direction_Type.dtMiddlePlane;
+            ksEntity formExtrude = 
+                part.NewEntity((short)Obj3dType.o3d_bossExtrusion);
+            ksBossExtrusionDefinition formExtrudeDefinition = 
+                formExtrude.GetDefinition();
+            formExtrudeDefinition.directionType = 
+                (short)Direction_Type.dtMiddlePlane;
             formExtrudeDefinition.SetSketch(formSketch);
-            ksExtrusionParam extrudeParam = formExtrudeDefinition.ExtrusionParam();
+            ksExtrusionParam extrudeParam = 
+                formExtrudeDefinition.ExtrusionParam();
             extrudeParam.depthNormal = depth;
             formExtrude.Create();
         }
@@ -147,10 +164,13 @@ namespace SweetKompasPlugin.Model
         /// Создание сдвинутой плоскости
         /// </summary>
         /// <param name="part"></param>
-        private ksEntity CreateShiftedPlane(ksPart part, ksEntity basePlane, double offset)
+        private ksEntity CreateShiftedPlane(ksPart part, ksEntity basePlane, 
+            double offset)
         {
-            ksEntity planeFormSurface = part.NewEntity((short)Obj3dType.o3d_planeOffset);
-            ksPlaneOffsetDefinition planeDefinition = planeFormSurface.GetDefinition();
+            ksEntity planeFormSurface = 
+                part.NewEntity((short)Obj3dType.o3d_planeOffset);
+            ksPlaneOffsetDefinition planeDefinition = 
+                planeFormSurface.GetDefinition();
             planeDefinition.SetPlane(basePlane);
             planeDefinition.offset = offset;
             planeFormSurface.Create();

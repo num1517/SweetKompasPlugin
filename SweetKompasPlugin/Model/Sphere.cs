@@ -9,27 +9,27 @@ using Kompas6Constants3D;
 
 namespace SweetKompasPlugin.Model
 {
-    class Sphere : CandyBase
+    public class Sphere : CandyBase
     {
-        private double _r;
+        private double _radius;
 
         /// <summary>
-        /// 
+        /// Конструктор сферической конфеты
         /// </summary>
-        /// <param name="r"></param>
-        public Sphere(double r)
+        /// <param name="radius"></param>
+        public Sphere(double radius)
         {
-            R = r;
+            Radius = radius;
         }
 
         /// <summary>
         /// Радиус сферической конфеты
         /// </summary>
-        public double R
+        public double Radius
         {
             get
             {
-                return _r;
+                return _radius;
             }
 
             private set
@@ -49,7 +49,7 @@ namespace SweetKompasPlugin.Model
                     throw new CandyRadiusException(
                         "Радиус конфеты не может быть больше 25 мм.");
                 }
-                _r = value;
+                _radius = value;
             }
         }
 
@@ -60,7 +60,7 @@ namespace SweetKompasPlugin.Model
         {
             get
             {
-                return 2 * R;
+                return 2 * Radius;
             }
             protected set
             {
@@ -76,7 +76,7 @@ namespace SweetKompasPlugin.Model
         {
             get
             {
-                return R;
+                return Radius;
             }
             protected set
             {
@@ -91,7 +91,7 @@ namespace SweetKompasPlugin.Model
         {
             get
             {
-                return 2 * R;
+                return 2 * Radius;
             }
             protected set
             {
@@ -99,27 +99,43 @@ namespace SweetKompasPlugin.Model
             }
         }
 
+        /// <summary>
+        /// Построение выреза сферической конфеты
+        /// </summary>
+        /// <param name="part"></param>
+        /// <param name="planeFormSurface"></param>
+        /// <param name="candySettings"></param>
+        /// <param name="formTotalLength"></param>
+        /// <param name="formTotalWidth"></param>
         public override void Build(ksPart part, ksEntity planeFormSurface, CandySettings candySettings, double formTotalLength, double formTotalWidth)
         {
-            double x = -formTotalLength / 2 + candySettings.FormDepthByLength + Height;
-            double y = -formTotalWidth / 2 + candySettings.FormDepthByWidth + Height;
+            double x = -formTotalLength / 2 
+                + candySettings.FormDepthByLength + Height;
+            double y = -formTotalWidth / 2 
+                + candySettings.FormDepthByWidth + Height;
 
             for (int i = 0; i < candySettings.CandyCount / 2; ++i)
             {
                 for (int j = 0; j < 2; ++j)
                 {
-                    // Создание и настройка эскиза на поверхности формы (смещенной плоскости)
+                    // Создание и настройка эскиза 
+                    // на поверхности формы (смещенной плоскости)
 
-                    ksEntity formSurfaceSketch = part.NewEntity((short)Obj3dType.o3d_sketch);
-                    ksSketchDefinition formSurfaceSketchDefinition = formSurfaceSketch.GetDefinition();
+                    ksEntity formSurfaceSketch = 
+                        part.NewEntity((short)Obj3dType.o3d_sketch);
+                    ksSketchDefinition formSurfaceSketchDefinition = 
+                        formSurfaceSketch.GetDefinition();
                     formSurfaceSketchDefinition.SetPlane(planeFormSurface);
                     formSurfaceSketch.Create();
 
                     // Входим в режим редактирования эскиза
-                    ksDocument2D formSurfaceDocument2D = (ksDocument2D)formSurfaceSketchDefinition.BeginEdit();
+                    ksDocument2D formSurfaceDocument2D = 
+                        (ksDocument2D)formSurfaceSketchDefinition.BeginEdit();
 
-                    formSurfaceDocument2D.ksArcByAngle(x, y, Height, 0, 180, 1, 1);
-                    formSurfaceDocument2D.ksLineSeg(-Height + x, 0 + y, Height + x, 0 + y, 3);
+                    formSurfaceDocument2D.ksArcByAngle(x, y, Height, 0, 180,
+                        1, 1);
+                    formSurfaceDocument2D.ksLineSeg(-Height + x, 0 + y,
+                        Height + x, 0 + y, 3);
 
                     // Выходим из режима редактирования эскиза
                     formSurfaceSketchDefinition.EndEdit();

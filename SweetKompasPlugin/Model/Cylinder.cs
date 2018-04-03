@@ -9,24 +9,24 @@ using SweetKompasPlugin.Model.Exceptions;
 
 namespace SweetKompasPlugin.Model
 {
-    class Cylinder : CandyBase
+    public class Cylinder : CandyBase
     {
-        private double _r;
+        private double _radius;
         private double _length;
 
         /// <summary>
-        /// 
+        /// Конструктор цилиндрической конфеты
         /// </summary>
-        /// <param name="r"></param>
+        /// <param name="radius"></param>
         /// <param name="length"></param>
-        public Cylinder(double r, double length)
+        public Cylinder(double radius, double length)
         {
-            R = r;
+            Radius = radius;
             Length = length;
         }
 
         /// <summary>
-        /// 
+        /// Построение выреза цилиндрической конфеты
         /// </summary>
         /// <param name="part"></param>
         /// <param name="planeFormSurface"></param>
@@ -34,41 +34,51 @@ namespace SweetKompasPlugin.Model
         /// <param name="formTotalLength"></param>
         /// <param name="formTotalWidth"></param>
         public override void Build(ksPart part, ksEntity planeFormSurface, 
-            CandySettings candySettings, double formTotalLength, double formTotalWidth)
+            CandySettings candySettings, double formTotalLength, 
+            double formTotalWidth)
         {
             double[] cylinderCandyXPoints = new double[] { 0, 0, 0, 0, 0 };
             double[] cylinderCandyYPoints = new double[] { 0, 0, 0, 0, 0 };
 
-            InitCylinderCandyPoints(ref cylinderCandyXPoints, ref cylinderCandyYPoints,
-                formTotalLength, formTotalWidth, candySettings);
+            InitCylinderCandyPoints(ref cylinderCandyXPoints, 
+                ref cylinderCandyYPoints, formTotalLength, formTotalWidth, 
+                candySettings);
 
             for (int i = 0; i < candySettings.CandyCount / 2; ++i)
             {
                 for (int j = 0; j < 2; ++j)
                 {
-                    // Создание и настройка эскиза на поверхности формы (смещенной плоскости)
+                    // Создание и настройка эскиза на 
+                    // поверхности формы (смещенной плоскости)
 
-                    ksEntity formSurfaceSketch = part.NewEntity((short)Obj3dType.o3d_sketch);
-                    ksSketchDefinition formSurfaceSketchDefinition = formSurfaceSketch.GetDefinition();
+                    ksEntity formSurfaceSketch = 
+                        part.NewEntity((short)Obj3dType.o3d_sketch);
+                    ksSketchDefinition formSurfaceSketchDefinition = 
+                        formSurfaceSketch.GetDefinition();
                     formSurfaceSketchDefinition.SetPlane(planeFormSurface);
                     formSurfaceSketch.Create();
 
                     // Входим в режим редактирования эскиза
-                    ksDocument2D formSurfaceDocument2D = (ksDocument2D)formSurfaceSketchDefinition.BeginEdit();
+                    ksDocument2D formSurfaceDocument2D = 
+                        (ksDocument2D)formSurfaceSketchDefinition.BeginEdit();
 
-                    DrawRect(cylinderCandyXPoints, cylinderCandyYPoints, formSurfaceDocument2D, 0);
+                    DrawRect(cylinderCandyXPoints, cylinderCandyYPoints, 
+                        formSurfaceDocument2D, 0);
 
                     // Выходим из режима редактирования эскиза
                     formSurfaceSketchDefinition.EndEdit();
 
                     CutRotated(part, formSurfaceSketch);
 
-                    cylinderCandyYPoints = GetShiftedArray(cylinderCandyYPoints,
+                    cylinderCandyYPoints = 
+                        GetShiftedArray(cylinderCandyYPoints, 
                         Length + candySettings.FormDepthByWidth);
                 }
-                cylinderCandyYPoints = GetShiftedArray(cylinderCandyYPoints,
+                cylinderCandyYPoints = 
+                    GetShiftedArray(cylinderCandyYPoints,
                     -2 * (Length + candySettings.FormDepthByWidth));
-                cylinderCandyXPoints = GetShiftedArray(cylinderCandyXPoints,
+                cylinderCandyXPoints = 
+                    GetShiftedArray(cylinderCandyXPoints, 
                     Width + candySettings.FormDepthByLength);
             }
         }
@@ -88,13 +98,16 @@ namespace SweetKompasPlugin.Model
         {
             X = new double[]
                 {
-                (-formTotalLength / 2) + candySettings.FormDepthByLength + Width/2,
-                (-formTotalLength / 2) + candySettings.FormDepthByLength + Width/2,
+                (-formTotalLength / 2) + candySettings.FormDepthByLength 
+                    + Width / 2,
+                (-formTotalLength / 2) + candySettings.FormDepthByLength 
+                    + Width / 2,
                 (-formTotalLength / 2) + candySettings.FormDepthByLength
                     + Width,
                 (-formTotalLength / 2) + candySettings.FormDepthByLength
                     + Width,
-                (-formTotalLength / 2) + candySettings.FormDepthByLength + Width/2
+                (-formTotalLength / 2) + candySettings.FormDepthByLength 
+                    + Width / 2
                 };
             Y = new double[]
             {
@@ -115,7 +128,7 @@ namespace SweetKompasPlugin.Model
         {
             get
             {
-                return 2 * R;
+                return 2 * Radius;
             }
             protected set
             {
@@ -130,7 +143,7 @@ namespace SweetKompasPlugin.Model
         {
             get
             {
-                return R;
+                return Radius;
             }
             protected set
             {
@@ -141,11 +154,11 @@ namespace SweetKompasPlugin.Model
         /// <summary>
         /// Радиус целиндрической конфеты
         /// </summary>
-        public double R
+        public double Radius
         {
             get
             {
-                return _r;
+                return _radius;
             }
 
             private set
@@ -165,7 +178,7 @@ namespace SweetKompasPlugin.Model
                     throw new CandyRadiusException(
                         "Радиус конфеты не может быть больше 25 мм.");
                 }
-                _r = value;
+                _radius = value;
             }
         }
 

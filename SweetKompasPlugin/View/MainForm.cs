@@ -16,31 +16,62 @@ namespace SweetKompasPlugin
     {
         private KompasWrapper _kompasWrapper = new KompasWrapper();
 
-        private Dictionary<TextBox, Label> _textBoxLabelBindDictionary = new Dictionary<TextBox, Label>();
+        /// <summary>
+        /// Словарь для привязки текстбоксов и лейблов
+        /// </summary>
+        private Dictionary<TextBox, Label> _textBoxLabelBindDictionary = 
+            new Dictionary<TextBox, Label>();
 
+        /// <summary>
+        /// Конструктор главного окна.
+        /// Заполняем словарь текстбоксами и лейблами.
+        /// И как бонус накидываем на текстбоксы валидирующий обработчик
+        /// </summary>
         public MainForm()
         {
             InitializeComponent();
-            _textBoxLabelBindDictionary.Add(CandyCountTextBox, CandyCountLabel);
-            _textBoxLabelBindDictionary.Add(FormDepthByLengthTextBox, FormDepthByLengthLabel);
-            _textBoxLabelBindDictionary.Add(FormDepthByWidthTextBox, FormDepthByWidthLabel);
-            _textBoxLabelBindDictionary.Add(FormDepthByHeightTextBox, FormDepthByHeightLabel);
-            _textBoxLabelBindDictionary.Add(RectCandyLengthTextBox, RectCandyLengthLabel);
-            _textBoxLabelBindDictionary.Add(RectCandyWidthTextBox, RectCandyWidthLabel);
-            _textBoxLabelBindDictionary.Add(RectCandyHeightTextBox, RectCandyHeightLabel);
-            _textBoxLabelBindDictionary.Add(SphereCandyRadiusTextBox, SphereCandyRadiusLabel);
-            _textBoxLabelBindDictionary.Add(CylinderCandyLengthTextBox, CylinderCandyLengthLabel);
-            _textBoxLabelBindDictionary.Add(CylinderCandyRadiusTextBox, CylinderCandyRadiusLabel);
-            CandyCountTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            FormDepthByLengthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            FormDepthByWidthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            FormDepthByHeightTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            RectCandyLengthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            RectCandyWidthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            RectCandyHeightTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            SphereCandyRadiusTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            CylinderCandyLengthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            CylinderCandyRadiusTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
+
+            _textBoxLabelBindDictionary.Add(CandyCountTextBox, 
+                CandyCountLabel);
+            _textBoxLabelBindDictionary.Add(FormDepthByLengthTextBox, 
+                FormDepthByLengthLabel);
+            _textBoxLabelBindDictionary.Add(FormDepthByWidthTextBox, 
+                FormDepthByWidthLabel);
+            _textBoxLabelBindDictionary.Add(FormDepthByHeightTextBox, 
+                FormDepthByHeightLabel);
+            _textBoxLabelBindDictionary.Add(RectCandyLengthTextBox, 
+                RectCandyLengthLabel);
+            _textBoxLabelBindDictionary.Add(RectCandyWidthTextBox, 
+                RectCandyWidthLabel);
+            _textBoxLabelBindDictionary.Add(RectCandyHeightTextBox, 
+                RectCandyHeightLabel);
+            _textBoxLabelBindDictionary.Add(SphereCandyRadiusTextBox, 
+                SphereCandyRadiusLabel);
+            _textBoxLabelBindDictionary.Add(CylinderCandyLengthTextBox, 
+                CylinderCandyLengthLabel);
+            _textBoxLabelBindDictionary.Add(CylinderCandyRadiusTextBox, 
+                CylinderCandyRadiusLabel);
+
+            CandyCountTextBox.KeyPress += 
+                new KeyPressEventHandler(IsNumberOrDotPressed);
+            FormDepthByLengthTextBox.KeyPress += 
+                new KeyPressEventHandler(IsNumberOrDotPressed);
+            FormDepthByWidthTextBox.KeyPress += 
+                new KeyPressEventHandler(IsNumberOrDotPressed);
+            FormDepthByHeightTextBox.KeyPress += 
+                new KeyPressEventHandler(IsNumberOrDotPressed);
+            RectCandyLengthTextBox.KeyPress += 
+                new KeyPressEventHandler(IsNumberOrDotPressed);
+            RectCandyWidthTextBox.KeyPress += 
+                new KeyPressEventHandler(IsNumberOrDotPressed);
+            RectCandyHeightTextBox.KeyPress += 
+                new KeyPressEventHandler(IsNumberOrDotPressed);
+            SphereCandyRadiusTextBox.KeyPress += 
+                new KeyPressEventHandler(IsNumberOrDotPressed);
+            CylinderCandyLengthTextBox.KeyPress += 
+                new KeyPressEventHandler(IsNumberOrDotPressed);
+            CylinderCandyRadiusTextBox.KeyPress += 
+                new KeyPressEventHandler(IsNumberOrDotPressed);
         }
 
         /// <summary>
@@ -63,8 +94,8 @@ namespace SweetKompasPlugin
                 double formDepthByHeight = 
                     Convert.ToDouble(FormDepthByHeightTextBox.Text);
 
-                candySettings = new CandySettings(candyCount, formDepthByLength,
-                    formDepthByWidth, formDepthByHeight);
+                candySettings = new CandySettings(candyCount, 
+                    formDepthByLength, formDepthByWidth, formDepthByHeight);
             }
             catch (CandyCountException exception)
             {
@@ -85,7 +116,8 @@ namespace SweetKompasPlugin
             catch (FormatException)
             {
                 ShowErrorMessage(null, 
-                    "Невозможно построить деталь. В параметрах допущена ошибка.");
+                    "Невозможно построить деталь. " 
+                    + "В параметрах допущена ошибка.");
             }
 
             // Создадим конфету
@@ -129,7 +161,8 @@ namespace SweetKompasPlugin
             catch (FormatException)
             {
                 ShowErrorMessage(null, 
-                    "Невозможно построить деталь. В параметрах допущена ошибка.");
+                    "Невозможно построить деталь. " 
+                    + "В параметрах допущена ошибка.");
             }
 
             if (candySettings != null && candy != null)
@@ -146,11 +179,13 @@ namespace SweetKompasPlugin
         /// <param name="e"></param>
         private void ChangeToBackColor(object sender, EventArgs e)
         {
-            _textBoxLabelBindDictionary[(TextBox)sender].BackColor = Color.Transparent;
+            _textBoxLabelBindDictionary[(TextBox)sender].BackColor = 
+                Color.Transparent;
         }
 
         /// <summary>
-        /// Вывод сообщения об ошибке и подсветка лейбла связанного с этой ошибкой
+        /// Вывод сообщения об ошибке 
+        /// и подсветка лейбла связанного с этой ошибкой
         /// </summary>
         /// <param name="label"></param>
         /// <param name="message"></param>
@@ -212,9 +247,12 @@ namespace SweetKompasPlugin
         /// <returns></returns>
         private Rect BuildRectCandy()
         {
-            double rectCandyLength = Convert.ToDouble(RectCandyLengthTextBox.Text);
-            double rectCandyWidth = Convert.ToDouble(RectCandyWidthTextBox.Text);
-            double rectCandyHeight = Convert.ToDouble(RectCandyHeightTextBox.Text);
+            double rectCandyLength = 
+                Convert.ToDouble(RectCandyLengthTextBox.Text);
+            double rectCandyWidth = 
+                Convert.ToDouble(RectCandyWidthTextBox.Text);
+            double rectCandyHeight = 
+                Convert.ToDouble(RectCandyHeightTextBox.Text);
 
             return new Rect(rectCandyWidth, rectCandyHeight, rectCandyLength);
         }
@@ -225,7 +263,8 @@ namespace SweetKompasPlugin
         /// <returns></returns>
         private Sphere BuildSphereCandy()
         {
-            double sphereCandyRadius = Convert.ToDouble(SphereCandyRadiusTextBox.Text);
+            double sphereCandyRadius = 
+                Convert.ToDouble(SphereCandyRadiusTextBox.Text);
 
             return new Sphere(sphereCandyRadius);
         }
@@ -236,8 +275,10 @@ namespace SweetKompasPlugin
         /// <returns></returns>
         private Cylinder BuildCylinderCandy()
         {
-            double cylinderCandyRadius = Convert.ToDouble(CylinderCandyRadiusTextBox.Text);
-            double cylinderCandyLength = Convert.ToDouble(CylinderCandyLengthTextBox.Text);
+            double cylinderCandyRadius = 
+                Convert.ToDouble(CylinderCandyRadiusTextBox.Text);
+            double cylinderCandyLength = 
+                Convert.ToDouble(CylinderCandyLengthTextBox.Text);
 
             return new Cylinder(cylinderCandyRadius, cylinderCandyLength);
         }

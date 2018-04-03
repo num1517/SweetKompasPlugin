@@ -9,12 +9,18 @@ using Kompas6Constants3D;
 
 namespace SweetKompasPlugin.Model
 {
-    class Rect : CandyBase
+    public class Rect : CandyBase
     {
         private double _width;
         private double _height;
         private double _length;
 
+        /// <summary>
+        /// Конструктор прямоугольной конфеты
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="length"></param>
         public Rect(double width, double height, double length)
         {
             Width = width;
@@ -115,18 +121,31 @@ namespace SweetKompasPlugin.Model
             }
         }
 
+        /// <summary>
+        /// Построение выреза прямоугольной конфеты
+        /// </summary>
+        /// <param name="part"></param>
+        /// <param name="planeFormSurface"></param>
+        /// <param name="candySettings"></param>
+        /// <param name="formTotalLength"></param>
+        /// <param name="formTotalWidth"></param>
         public override void Build(ksPart part, ksEntity planeFormSurface, 
-            CandySettings candySettings, double formTotalLength, double formTotalWidth)
+            CandySettings candySettings, double formTotalLength, 
+            double formTotalWidth)
         {
-            // Создание и настройка эскиза на поверхности формы (смещенной плоскости)
+            // Создание и настройка эскиза 
+            // на поверхности формы (смещенной плоскости)
 
-            ksEntity formSurfaceSketch = part.NewEntity((short)Obj3dType.o3d_sketch);
-            ksSketchDefinition formSurfaceSketchDefinition = formSurfaceSketch.GetDefinition();
+            ksEntity formSurfaceSketch = 
+                part.NewEntity((short)Obj3dType.o3d_sketch);
+            ksSketchDefinition formSurfaceSketchDefinition = 
+                formSurfaceSketch.GetDefinition();
             formSurfaceSketchDefinition.SetPlane(planeFormSurface);
             formSurfaceSketch.Create();
 
             // Входим в режим редактирования эскиза
-            ksDocument2D formSurfaceDocument2D = formSurfaceSketchDefinition.BeginEdit();
+            ksDocument2D formSurfaceDocument2D = 
+                formSurfaceSketchDefinition.BeginEdit();
 
             // Расчитаем положение первой конфеты
             // Положение других конфет расчитаем путем сдвига первой
@@ -142,7 +161,8 @@ namespace SweetKompasPlugin.Model
             {
                 for (int j = 0; j < 2; ++j)
                 {
-                    DrawRect(rectCandyXPoints, rectCandyYPoints, formSurfaceDocument2D);
+                    DrawRect(rectCandyXPoints, rectCandyYPoints, 
+                        formSurfaceDocument2D);
 
                     rectCandyYPoints = GetShiftedArray(rectCandyYPoints,
                         Length + candySettings.FormDepthByWidth);
