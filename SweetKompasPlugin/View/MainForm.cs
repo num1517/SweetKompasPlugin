@@ -77,8 +77,8 @@ namespace SweetKompasPlugin
         /// <summary>
         /// Кнопка построить деталь
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Параметры события</param>
         private void BuildButton_Click(object sender, EventArgs e)
         {
             // Создадим конфетну форму
@@ -175,8 +175,8 @@ namespace SweetKompasPlugin
         /// <summary>
         /// Возвращение исходного цвета для лейбла привязанного к текстбоксу
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Параметры события</param>
         private void ChangeToBackColor(object sender, EventArgs e)
         {
             _textBoxLabelBindDictionary[(TextBox)sender].BackColor = 
@@ -185,10 +185,10 @@ namespace SweetKompasPlugin
 
         /// <summary>
         /// Вывод сообщения об ошибке 
-        /// и подсветка лейбла связанного с этой ошибкой
+        /// и подсветка лейбла, связанного с этой ошибкой
         /// </summary>
-        /// <param name="label"></param>
-        /// <param name="message"></param>
+        /// <param name="label">Подсвечиваемый лейбл</param>
+        /// <param name="message">Выводимое на экран сообщение</param>
         private void ShowErrorMessage(Label label, string message)
         {
             // Сообщение об ошибки может быть не привязано к лейблу
@@ -204,8 +204,8 @@ namespace SweetKompasPlugin
         /// Событие проверяющее чтобы текстбокс содержал 
         /// максимум один знак разделения (точка, запятая)
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Параметры события</param>
         private void IsNumberOrDotPressed(object sender, KeyPressEventArgs e)
         {
             if (!(Char.IsControl(e.KeyChar))
@@ -226,8 +226,8 @@ namespace SweetKompasPlugin
         /// Проверка текстбокса на неверные 
         /// значения (пустота или просто точка/запятая)
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Параметры события</param>
         private void TextBoxValidate(object sender, EventArgs e)
         {
             TextBox textBox = ((TextBox)sender);
@@ -244,7 +244,7 @@ namespace SweetKompasPlugin
         /// <summary>
         /// Создание прямоугольной конфеты
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Возвращает прямоугольную конфету</returns>
         private Rect BuildRectCandy()
         {
             double rectCandyLength = 
@@ -260,7 +260,7 @@ namespace SweetKompasPlugin
         /// <summary>
         /// Создание сферической конфеты
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Возвращает сферическую конфету</returns>
         private Sphere BuildSphereCandy()
         {
             double sphereCandyRadius = 
@@ -272,7 +272,7 @@ namespace SweetKompasPlugin
         /// <summary>
         /// Создание цилиндрической конфеты
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Возвращает цилиндрическую конфету</returns>
         private Cylinder BuildCylinderCandy()
         {
             double cylinderCandyRadius = 

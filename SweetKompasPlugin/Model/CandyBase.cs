@@ -1,24 +1,21 @@
 ﻿using Kompas6API5;
 using Kompas6Constants3D;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SweetKompasPlugin.Model
 {
+    /// <summary>
+    /// Абстрактный класс конфеты
+    /// </summary>
     abstract public class CandyBase
     {
         /// <summary>
         /// Построение выреза конфеты
         /// </summary>
-        /// <param name="part"></param>
-        /// <param name="planeFormSurface"></param>
-        /// <param name="candy"></param>
-        /// <param name="candySettings"></param>
-        /// <param name="formTotalLength"></param>
-        /// <param name="formTotalWidth"></param>
+        /// <param name="part">Компонент сборки</param>
+        /// <param name="planeFormSurface">Плоскость поверхности формы</param>
+        /// <param name="candySettings">Параметры конфетной формы</param>
+        /// <param name="formTotalLength">Общая длина конфетной формы</param>
+        /// <param name="formTotalWidth">Общая ширина конфетной формы</param>
         public abstract void Build(ksPart part, ksEntity planeFormSurface, 
             CandySettings candySettings, double formTotalLength, 
             double formTotalWidth);
@@ -27,10 +24,10 @@ namespace SweetKompasPlugin.Model
         /// Рисование в компасе квадрата.
         /// axisline = номер линии которую нужно нарисовать осевой
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="doc2d"></param>
-        /// <param name="axisline"></param>
+        /// <param name="x">Массив x координат точек</param>
+        /// <param name="y">Массив y координат точек</param>
+        /// <param name="doc2d">Чертеж</param>
+        /// <param name="axisline">Номер осевой линии</param>
         public static void DrawRect(double[] x, double[] y, 
             ksDocument2D doc2d, int axisline = -1)
         {
@@ -52,9 +49,9 @@ namespace SweetKompasPlugin.Model
         /// Сдвиг массива.
         /// Увеличивает все параметры массива на число.
         /// </summary>
-        /// <param name="array"></param>
-        /// <param name="shift"></param>
-        /// <returns></returns>
+        /// <param name="array">Исходный массив</param>
+        /// <param name="shift">Величина сдвига</param>
+        /// <returns>Сдвинутый массив</returns>
         protected double[] GetShiftedArray(double[] array, double shift)
         {
             for (int i = 0; i < array.Length; ++i)
@@ -68,8 +65,8 @@ namespace SweetKompasPlugin.Model
         /// Вырез вращением на 360 градусов.
         /// Эскиз обязательно должен иметь одну осевую линию
         /// </summary>
-        /// <param name="part"></param>
-        /// <param name="sketch"></param>
+        /// <param name="part">Компонент сборки</param>
+        /// <param name="sketch">Вырезаемый эскиз</param>
         protected void CutRotated(ksPart part, ksEntity sketch)
         {
             ksEntity rotate = 
@@ -87,9 +84,9 @@ namespace SweetKompasPlugin.Model
         /// <summary>
         /// Обычный вырез
         /// </summary>
-        /// <param name="part"></param>
-        /// <param name="sketch"></param>
-        /// <param name="depth"></param>
+        /// <param name="part">Компонент сборки</param>
+        /// <param name="sketch">Вырезаемый эскиз</param>
+        /// <param name="depth">Глубина выреза</param>
         protected void CutExtrude(ksPart part, ksEntity sketch, 
             double depth)
         {

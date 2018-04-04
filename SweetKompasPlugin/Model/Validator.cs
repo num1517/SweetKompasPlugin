@@ -4,15 +4,14 @@ namespace SweetKompasPlugin.Model
 {
     /// <summary>
     /// Валидация параметров
-    /// true - валидация пройдена
     /// </summary>
     public class Validator
     {
         /// <summary>
         /// Валидация целого числа
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        /// <param name="value">Валидируемое число</param>
+        /// <returns>Возвращает true если валидация пройдена</returns>
         static public bool IsValidInt(Int32 value)
         {
             if (value < Int32.MinValue
@@ -26,8 +25,8 @@ namespace SweetKompasPlugin.Model
         /// <summary>
         /// Валидация числа двойной точности с плавающей запятой
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        /// <param name="value">Валидируемое число</param>
+        /// <returns>Возвращает true если валидация пройдена</returns>
         static public bool IsValidDouble(double value)
         {
             if (value < Double.MinValue

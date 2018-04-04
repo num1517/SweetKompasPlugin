@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Kompas6API5;
 using Kompas6Constants3D;
-using System.Collections.Generic;
 
 namespace SweetKompasPlugin.Model
 {
@@ -70,8 +70,8 @@ namespace SweetKompasPlugin.Model
         /// <summary>
         /// Построить конфетную форму в KOMPAS
         /// </summary>
-        /// <param name="candySettings"></param>
-        /// <param name="candy"></param>
+        /// <param name="candySettings">Параметры конфетной формы</param>
+        /// <param name="candy">Параметры конфеты</param>
         public void BuildCandySettings (CandySettings candySettings, 
             CandyBase candy)
         {
@@ -141,9 +141,9 @@ namespace SweetKompasPlugin.Model
         /// <summary>
         /// Выдавливание формы
         /// </summary>
-        /// <param name="part"></param>
-        /// <param name="formSketch"></param>
-        /// <param name="depth"></param>
+        /// <param name="part">Компонент сборки</param>
+        /// <param name="formSketch">Эскиз конфетной формы</param>
+        /// <param name="depth">Глубина выдавливания</param>
         private void CandySettingsExtrude(ksPart part, ksEntity formSketch, 
             double depth)
         {
@@ -163,7 +163,10 @@ namespace SweetKompasPlugin.Model
         /// <summary>
         /// Создание сдвинутой плоскости
         /// </summary>
-        /// <param name="part"></param>
+        /// <param name="part">Компонент сборки</param>
+        /// <param name="basePlane">Исходная плоскость</param>
+        /// <param name="offset">Величина сдвига</param>
+        /// <returns></returns>
         private ksEntity CreateShiftedPlane(ksPart part, ksEntity basePlane, 
             double offset)
         {
@@ -180,10 +183,10 @@ namespace SweetKompasPlugin.Model
         /// <summary>
         /// Расчет точек конфетной формы
         /// </summary>
-        /// <param name="X"></param>
-        /// <param name="Y"></param>
-        /// <param name="formTotalLength"></param>
-        /// <param name="formTotalWidth"></param>
+        /// <param name="X">Массив x координат точек конфетной формы</param>
+        /// <param name="Y">Массив y координат точек конфетной формы</param>
+        /// <param name="formTotalLength">Общая длина конфетной формы</param>
+        /// <param name="formTotalWidth">Общая ширина конфетной формы</param>
         private void InitCandySettingsPoints(ref double[] X, ref double[] Y, 
             double formTotalLength, double formTotalWidth)
         {

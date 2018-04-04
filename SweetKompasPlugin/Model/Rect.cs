@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SweetKompasPlugin.Model.Exceptions;
+
 using Kompas6API5;
-using SweetKompasPlugin.Model.Exceptions;
 using Kompas6Constants3D;
 
 namespace SweetKompasPlugin.Model
 {
+    /// <summary>
+    /// Прямоугольная конфета
+    /// </summary>
     public class Rect : CandyBase
     {
         private double _width;
@@ -18,9 +17,9 @@ namespace SweetKompasPlugin.Model
         /// <summary>
         /// Конструктор прямоугольной конфеты
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="length"></param>
+        /// <param name="width">Ширина конфеты</param>
+        /// <param name="height">Высота конфеты</param>
+        /// <param name="length">Длина конфеты</param>
         public Rect(double width, double height, double length)
         {
             Width = width;
@@ -124,11 +123,11 @@ namespace SweetKompasPlugin.Model
         /// <summary>
         /// Построение выреза прямоугольной конфеты
         /// </summary>
-        /// <param name="part"></param>
-        /// <param name="planeFormSurface"></param>
-        /// <param name="candySettings"></param>
-        /// <param name="formTotalLength"></param>
-        /// <param name="formTotalWidth"></param>
+        /// <param name="part">Компонент сборки</param>
+        /// <param name="planeFormSurface">Плоскость поверхности формы</param>
+        /// <param name="candySettings">Параметры конфетной формы</param>
+        /// <param name="formTotalLength">Общая длина конфетной формы</param>
+        /// <param name="formTotalWidth">Общая ширина конфетной формы</param>
         public override void Build(ksPart part, ksEntity planeFormSurface, 
             CandySettings candySettings, double formTotalLength, 
             double formTotalWidth)
@@ -183,11 +182,11 @@ namespace SweetKompasPlugin.Model
         /// <summary>
         /// Расчет точек прямоугольной конфеты
         /// </summary>
-        /// <param name="X"></param>
-        /// <param name="Y"></param>
-        /// <param name="formTotalLength"></param>
-        /// <param name="formTotalWidth"></param>
-        /// <param name="candySettings"></param>
+        /// <param name="X">Массив x координат точек конфеты</param>
+        /// <param name="Y">Массив y координат точек конфеты</param>
+        /// <param name="formTotalLength">Общая длина конфетной формы</param>
+        /// <param name="formTotalWidth">Общая ширина конфетной формы</param>
+        /// <param name="candySettings">Параметры конфетной формы</param>
         private void InitRectCandyPoints(ref double[] X, ref double[] Y,
             double formTotalLength, double formTotalWidth,
             CandySettings candySettings)

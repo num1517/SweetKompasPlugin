@@ -15,10 +15,10 @@ namespace SweetKompasPlugin.Model
         /// <summary>
         /// Конструктор конфетной формы
         /// </summary>
-        /// <param name="candyCount"></param>
-        /// <param name="formDepthByLength"></param>
-        /// <param name="formDepthByWidth"></param>
-        /// <param name="formDepthByHeight"></param>
+        /// <param name="candyCount">Количество конфет</param>
+        /// <param name="formDepthByLength">Толщина формы по длине</param>
+        /// <param name="formDepthByWidth">Толщина формы по ширине</param>
+        /// <param name="formDepthByHeight">Толщина формы по высоте</param>
         public CandySettings(int candyCount, double formDepthByLength, 
             double formDepthByWidth, double formDepthByHeight)
         {

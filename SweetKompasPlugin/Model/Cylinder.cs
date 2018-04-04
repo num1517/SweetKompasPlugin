@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SweetKompasPlugin.Model.Exceptions;
+
 using Kompas6API5;
 using Kompas6Constants3D;
-using SweetKompasPlugin.Model.Exceptions;
 
 namespace SweetKompasPlugin.Model
 {
+    /// <summary>
+    /// Цилиндрическая конфета
+    /// </summary>
     public class Cylinder : CandyBase
     {
         private double _radius;
@@ -17,8 +16,8 @@ namespace SweetKompasPlugin.Model
         /// <summary>
         /// Конструктор цилиндрической конфеты
         /// </summary>
-        /// <param name="radius"></param>
-        /// <param name="length"></param>
+        /// <param name="radius">Радиус конфеты</param>
+        /// <param name="length">Длина конфеты</param>
         public Cylinder(double radius, double length)
         {
             Radius = radius;
@@ -28,11 +27,11 @@ namespace SweetKompasPlugin.Model
         /// <summary>
         /// Построение выреза цилиндрической конфеты
         /// </summary>
-        /// <param name="part"></param>
-        /// <param name="planeFormSurface"></param>
-        /// <param name="candySettings"></param>
-        /// <param name="formTotalLength"></param>
-        /// <param name="formTotalWidth"></param>
+        /// <param name="part">Компонент сборки</param>
+        /// <param name="planeFormSurface">Плоскость поверхности формы</param>
+        /// <param name="candySettings">Параметры конфетной формы</param>
+        /// <param name="formTotalLength">Общая длина конфетной формы</param>
+        /// <param name="formTotalWidth">Общая ширина конфетной формы</param>
         public override void Build(ksPart part, ksEntity planeFormSurface, 
             CandySettings candySettings, double formTotalLength, 
             double formTotalWidth)
@@ -86,12 +85,11 @@ namespace SweetKompasPlugin.Model
         /// <summary>
         /// Расчет точек цилиндрической конфеты
         /// </summary>
-        /// <param name="X"></param>
-        /// <param name="Y"></param>
-        /// <param name="formTotalLength"></param>
-        /// <param name="formTotalWidth"></param>
-        /// <param name="candySettings"></param>
-        /// <param name="candy"></param>
+        /// <param name="X">Массив x координат точек конфеты</param>
+        /// <param name="Y">Массив y координат точек конфеты</param>
+        /// <param name="formTotalLength">Общая длина конфетной формы</param>
+        /// <param name="formTotalWidth">Общая ширина конфетной формы</param>
+        /// <param name="candySettings">Параметры конфетной формы</param>
         private void InitCylinderCandyPoints(ref double[] X, ref double[] Y,
             double formTotalLength, double formTotalWidth,
             CandySettings candySettings)
@@ -122,7 +120,7 @@ namespace SweetKompasPlugin.Model
         }
 
         /// <summary>
-        /// Ширина целиндрической конфеты
+        /// Ширина цилиндрической конфеты
         /// </summary>
         public override double Width
         {
@@ -152,7 +150,7 @@ namespace SweetKompasPlugin.Model
         }
 
         /// <summary>
-        /// Радиус целиндрической конфеты
+        /// Радиус цилиндрической конфеты
         /// </summary>
         public double Radius
         {
@@ -183,7 +181,7 @@ namespace SweetKompasPlugin.Model
         }
 
         /// <summary>
-        /// Длина целиндрической конфеты
+        /// Длина цилиндрической конфеты
         /// </summary>
         public override double Length
         {

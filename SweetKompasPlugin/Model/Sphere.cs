@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SweetKompasPlugin.Model.Exceptions;
+
 using Kompas6API5;
-using SweetKompasPlugin.Model.Exceptions;
 using Kompas6Constants3D;
 
 namespace SweetKompasPlugin.Model
 {
+    /// <summary>
+    /// Сферическая конфета
+    /// </summary>
     public class Sphere : CandyBase
     {
         private double _radius;
@@ -16,7 +15,7 @@ namespace SweetKompasPlugin.Model
         /// <summary>
         /// Конструктор сферической конфеты
         /// </summary>
-        /// <param name="radius"></param>
+        /// <param name="radius">Радиус конфеты</param>
         public Sphere(double radius)
         {
             Radius = radius;
@@ -102,11 +101,11 @@ namespace SweetKompasPlugin.Model
         /// <summary>
         /// Построение выреза сферической конфеты
         /// </summary>
-        /// <param name="part"></param>
-        /// <param name="planeFormSurface"></param>
-        /// <param name="candySettings"></param>
-        /// <param name="formTotalLength"></param>
-        /// <param name="formTotalWidth"></param>
+        /// <param name="part">Компонент сборки</param>
+        /// <param name="planeFormSurface">Плоскость поверхности формы</param>
+        /// <param name="candySettings">Параметры конфетной формы</param>
+        /// <param name="formTotalLength">Общая длина конфетной формы</param>
+        /// <param name="formTotalWidth">Общая ширина конфетной формы</param>
         public override void Build(ksPart part, ksEntity planeFormSurface, CandySettings candySettings, double formTotalLength, double formTotalWidth)
         {
             double x = -formTotalLength / 2 
