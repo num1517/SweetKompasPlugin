@@ -166,7 +166,7 @@ namespace SweetKompasPlugin.Model
         /// <param name="part">Компонент сборки</param>
         /// <param name="basePlane">Исходная плоскость</param>
         /// <param name="offset">Величина сдвига</param>
-        /// <returns></returns>
+        /// <returns>Возвращает сдвинутую плоскость</returns>
         private ksEntity CreateShiftedPlane(ksPart part, ksEntity basePlane, 
             double offset)
         {
